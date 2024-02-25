@@ -1,4 +1,6 @@
-package taskmanager.typetask;
+package taskmanager.tasks;
+
+import java.util.Objects;
 
 public class SubTask extends Task {
     private int idEpic;
@@ -20,4 +22,15 @@ public class SubTask extends Task {
     public void setIdEpic(int idEpic) {
         this.idEpic = idEpic;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        SubTask subTask = (SubTask) o;
+        return idEpic == subTask.idEpic;
+    }
+
+
 }

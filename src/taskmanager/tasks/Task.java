@@ -1,15 +1,15 @@
-package taskmanager.typetask;
+package taskmanager.tasks;
 
 import java.util.Objects;
 
 public class Task {
-    protected int id = 0;
-    protected String name;
-    protected String description;
-    protected Status status;
+    private int id = 0;
+    private String name;
+    private String description;
+    private Status status;
 
     public Task(String name, String description, Status status) {
-        this.id = getId();
+        //this.id = getId();
         this.name = name;
         this.description = description;
         this.status = status;
@@ -69,6 +69,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return name + ':' + id + ':'+ description + ':' + status;
+        return name + " ID=" + id + ':'+ description + " Status=" + status;
     }
 }
