@@ -44,8 +44,9 @@ public class TaskManager {
 
     //e. Обновление задачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     public void updateTask(Task updTask) {
-        if (tasks.get(updTask.getId()) != null) {
-            Task curTask = tasks.get(updTask.getId());
+
+        Task curTask = tasks.get(updTask.getId());
+        if (curTask != null) {
             tasks.put(updTask.getId(), updTask);
             System.out.println("Задача " + curTask + " отредактирована на - " + updTask);
         } else {
@@ -66,7 +67,7 @@ public class TaskManager {
     }
 
     //b. Удаление всех подзадач.
-    public void delListSubTask(int id) {
+    public void delListSubTask() {
         subTasks.clear();
         for (Epic epic : epics.values()) {
             epic.delAllSubTasks(); //удаление привязок ID подзадач в классе Epic
@@ -81,12 +82,11 @@ public class TaskManager {
 
     //d. Создание подзадачи. Сам объект должен передаваться в качестве параметра.
     public SubTask addSubTask(SubTask newSubTask) {
-        if (epics.containsKey(newSubTask.getIdEpic())) {
+        Epic epic = epics.get(newSubTask.getIdEpic());
+
+        if (epic != null) {
             newSubTask.setId(generationID());
             //System.out.println("numSubTask= " + newSubTask.getId());
-
-            int idEpic = newSubTask.getIdEpic();
-            Epic epic = epics.get(idEpic);
 
             ArrayList<Integer> idEpicSubTasks = epic.getIdSubTask();
             idEpicSubTasks.add(newSubTask.getId());  //добавление нового ID подзадачи в Epic
@@ -102,15 +102,14 @@ public class TaskManager {
 
     //e. Обновление подзадачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     public void updateSubTask(SubTask updSubTask) {
-        if (subTasks.containsKey(updSubTask.getId())) {
+        Epic epic = epics.get(updSubTask.getIdEpic());
+
+        if (epic != null) {
             SubTask curSubTask = subTasks.get(updSubTask.getId());
             subTasks.put(updSubTask.getId(), updSubTask);
             System.out.println("Подадача " + curSubTask + " отредактирована на - " + updSubTask);
 
-            int idUpdEpic = updSubTask.getIdEpic();
-            Epic epic = epics.get(idUpdEpic);
-
-            subTasks.put(idUpdEpic, updSubTask);
+            subTasks.put(updSubTask.getIdEpic(), updSubTask);
             updateStatusEpic(epic);
         } else {
             System.out.println("Неизвестная подзадача");
@@ -119,13 +118,17 @@ public class TaskManager {
 
     //f. Удаление подзадач Epica по идентификатору.
     public SubTask deleteSubTask(int id) {
-        SubTask deletedSubTask = subTasks.get(id);
+        SubTask deletedSubTask = subTasks.remove(id);
+        if (deletedSubTask == null) {
+            System.out.println("Нет такой подзадачи");
 
-        Epic epic = epics.get(deletedSubTask.getIdEpic());
-        //epic.getIdSubTask().remove(id);  //удаление привязки ID подзадач в классе Epic
-        epic.delSubTask(id); //удаление привязки ID подзадач в классе Epic
-        subTasks.remove(id);
-        updateStatusEpic(epic);
+        } else {
+            Epic epic = epics.get(deletedSubTask.getIdEpic());
+            //epic.getIdSubTask().remove(id);  //удаление привязки ID подзадач в классе Epic
+            epic.delSubTask(id); //удаление привязки ID подзадач в классе Epic
+
+            updateStatusEpic(epic);
+        }
         return deletedSubTask;
     }
     //----------------EndsubTasks-------------//
@@ -159,8 +162,8 @@ public class TaskManager {
     //e. Обновление эпика. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     public void updateEpic(Epic updEpic) {
         if (epics.containsKey(updEpic.getId())) {
-            Task curEpic = tasks.get(updEpic.getId());
-            tasks.put(updEpic.getId(), updEpic);
+            Epic curEpic = epics.get(updEpic.getId());
+            epics.put(updEpic.getId(), updEpic);
             System.out.println("Эпик " + curEpic + " отредактирован на - " + updEpic);
         } else {
             System.out.println("Неизвестный эпик");
@@ -169,11 +172,10 @@ public class TaskManager {
 
     //f. Удаление эпика по идентификатору.
     public Epic deleteEpic(int id) {
-        Epic deletedEpic = epics.get(id);
+        Epic deletedEpic = epics.remove(id);
         for (int idSubTask : deletedEpic.getIdSubTask()) {
             subTasks.remove(idSubTask);
         }
-        epics.remove(id);
         return deletedEpic;
     }
     //----------------EndEpics-------------//
@@ -181,10 +183,12 @@ public class TaskManager {
     //Дополнительные методы:
     //a. Получение списка всех подзадач определённого эпика.
     //хранить в эпике List<Integer>, а в методах менеджера пробегаться по этому списку и для каждого id делать subTasks.get(id).
-    public ArrayList<Integer> getListSubTaskByIdEpic (int idEpic) {
-        Epic epic = epics.get(idEpic);
-
-        return epic.getIdSubTask();
+    public ArrayList<SubTask> getListSubTaskByIdEpic(int idEpic) {
+        ArrayList<SubTask> subs = new ArrayList<>();
+        for (Integer id : epics.get(idEpic).getIdSubTask()) {
+            subs.add(subTasks.get(id));
+        }
+        return subs;
     }
 
     /*Управление статусами осуществляется по следующему правилу:
@@ -194,24 +198,27 @@ public class TaskManager {
     если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
     если все подзадачи имеют статус DONE, то и эпик считается завершённым — со статусом DONE.
     во всех остальных случаях статус должен быть IN_PROGRESS*/
-    public void updateStatusEpic(Epic epic) {
+    void updateStatusEpic(Epic epic) {
     int counterSubTaskNew = 0;
     int counterSubTaskDone = 0;
     for (int id : epic.getIdSubTask()) { //SubTask subTask : subTasks.values()
         if (subTasks.get(id).getStatus().equals(Status.NEW)) {
             counterSubTaskNew++;
-            //if (counterSubTaskNew == subTasks.size()) {
+            if (counterSubTaskNew == epic.getIdSubTask().size()) {
                 epic.setStatus(Status.NEW);
-            //}
+            }
         } else if (subTasks.get(id).getStatus().equals(Status.DONE)) {
-            //counterSubTaskDone++;
-            //if (counterSubTaskDone == subTasks.size()) {
+            counterSubTaskDone++;
+            if (counterSubTaskDone == epic.getIdSubTask().size()) {
                 epic.setStatus(Status.DONE);
-            //}
+            }
         } else {
             epic.setStatus(Status.IN_PROGRESS);
         }
     }
+        if (epic.getIdSubTask() == null) {
+            epic.setStatus(Status.NEW);
+        }
     }
 
     public int generationID() {

@@ -32,7 +32,7 @@ public class Main {
         SubTask subTask2 = new SubTask("Подзадача 2","Пройти практику Java", Status.IN_PROGRESS, 3);
         SubTask added2subTask = taskManager.addSubTask(subTask2);
         //System.out.println("Добавлена подазадача: " + added2subTask);
-        taskManager.updateStatusEpic(epic1);
+        //taskManager.updateStatusEpic(epic1);
         //System.out.println("Статус Epic: " + epic1.getStatus());
         //System.out.println("Статус задачи1: " + task1.getStatus());
         //System.out.println("Статус задачи2: " + task2.getStatus());
@@ -46,7 +46,7 @@ public class Main {
         SubTask added3subTask = taskManager.addSubTask(subTask3);
         //System.out.println("Добавлена подзадача: " + added3subTask);
 
-        taskManager.updateStatusEpic(epic2);
+        //taskManager.updateStatusEpic(epic2);
         //System.out.println("Статус Epic2: " + epic2.getStatus());
 
         //Распечатайте списки эпиков, задач и подзадач через System.out.println(..)
@@ -60,8 +60,8 @@ public class Main {
         System.out.println("\nЗадачи, подзадачи, эпики 1 до изменения статусов");
         System.out.println(task1);
         System.out.println(epic1);
-        for (Integer i : taskManager.getListSubTaskByIdEpic(3)) {
-            System.out.println(taskManager.getSubTaskById(i));
+        for (SubTask subs : taskManager.getListSubTaskByIdEpic(3)) {
+            System.out.println(subs);
         }
 
         System.out.println("\n***Задачи, подзадачи, эпики 1 изменение статусов***");
@@ -70,10 +70,10 @@ public class Main {
 
         System.out.println("\nЗадачи, подзадачи, эпики 1 после изменения статусов");
         System.out.println(task1);
-        taskManager.updateStatusEpic(epic1);
+        //taskManager.updateStatusEpic(epic1);
         System.out.println(epic1);
-        for (Integer i : taskManager.getListSubTaskByIdEpic(3)) {
-            System.out.println(taskManager.getSubTaskById(i));
+        for (SubTask subs : taskManager.getListSubTaskByIdEpic(3)) {
+            System.out.println(subs);
         }
 
         System.out.println("\n***Задачи, подзадачи, эпики 1 очередное изменение статусов***");
@@ -82,17 +82,17 @@ public class Main {
 
         System.out.println("\nЗадачи, подзадачи, эпики 1 после очередного изменения статусов");
         System.out.println(task1);
-        taskManager.updateStatusEpic(epic1);
+        //taskManager.updateStatusEpic(epic1);
         System.out.println(epic1);
-        for (Integer i : taskManager.getListSubTaskByIdEpic(3)) {
-            System.out.println(taskManager.getSubTaskById(i));
+        for (SubTask subs : taskManager.getListSubTaskByIdEpic(3)) {
+            System.out.println(subs);
         }
 
         System.out.println("\nЗадачи, подзадачи, эпики 2 до изменения статусов");
         System.out.println(task2);
         System.out.println(epic2);
-        for (Integer i : taskManager.getListSubTaskByIdEpic(6)) {
-            System.out.println(taskManager.getSubTaskById(i));
+        for (SubTask subs : taskManager.getListSubTaskByIdEpic(6)) {
+            System.out.println(subs);
         }
 
         System.out.println("\n***Задачи, подзадачи, эпики 2 изменение статусов***");
@@ -100,10 +100,10 @@ public class Main {
 
         System.out.println("\nЗадачи, подзадачи, эпики 2 после изменения статусов");
         System.out.println(task2);
-        taskManager.updateStatusEpic(epic2);
+        //taskManager.updateStatusEpic(epic2);
         System.out.println(epic2);
-        for (Integer i : taskManager.getListSubTaskByIdEpic(6)) {
-            System.out.println(taskManager.getSubTaskById(i));
+        for (SubTask subs : taskManager.getListSubTaskByIdEpic(6)) {
+            System.out.println(subs);
         }
 
         //И, наконец, попробуйте удалить одну из задач и один из эпиков.

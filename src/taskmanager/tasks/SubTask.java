@@ -32,5 +32,8 @@ public class SubTask extends Task {
         return idEpic == subTask.idEpic;
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), idEpic);
+    }
 }
