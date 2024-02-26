@@ -216,8 +216,12 @@ public class TaskManager {
             epic.setStatus(Status.IN_PROGRESS);
         }
     }
-        if (epic.getIdSubTask() == null) {
+        if (epic.getIdSubTask() == null || (epic.getIdSubTask().isEmpty())) {
             epic.setStatus(Status.NEW);
+        }
+
+        if (counterSubTaskNew != 0 && (counterSubTaskDone != 0)) {
+            epic.setStatus(Status.IN_PROGRESS);
         }
     }
 
