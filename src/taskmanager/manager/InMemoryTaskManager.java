@@ -25,7 +25,7 @@ public class InMemoryTaskManager implements TaskManager {
     //----------------Tasks-------------//
     //a. Получение списка всех задач.
     @Override
-    public ArrayList<Task> getListTasks() {
+    public List<Task> getListTasks() {
         return new ArrayList<>(tasks.values());
     }
 
@@ -38,10 +38,11 @@ public class InMemoryTaskManager implements TaskManager {
     //c. Получение задачи по идентификатору.
     @Override
     public Task getTaskById(int id) {
-        if (tasks.containsKey(id)) {
-            historyManager.add(tasks.get(id));
+        Task t = tasks.get(id);
+        if (t != null) {                     //(tasks.containsKey(id)) {
+            historyManager.add(t);           //historyManager.add(tasks.get(id));
         }
-        return tasks.get(id);
+        return t;                            //return tasks.get(id);
     }
 
     //d. Создание задачи. Сам объект должен передаваться в качестве параметра.
@@ -77,7 +78,7 @@ public class InMemoryTaskManager implements TaskManager {
     //----------------subTasks-------------//
     //a. Получение списка всех подзадач.
     @Override
-    public ArrayList<SubTask> getListSubTasks() {
+    public List<SubTask> getListSubTasks() {
         return new ArrayList<>(subTasks.values());
     }
 
@@ -94,10 +95,11 @@ public class InMemoryTaskManager implements TaskManager {
     //c. Получение подзадачи по идентификатору.
     @Override
     public SubTask getSubTaskById(int id) {
-        if (subTasks.containsKey(id)) {
-            historyManager.add(subTasks.get(id));
+        SubTask sT = subTasks.get(id);
+        if (sT != null) {            //(subTasks.containsKey(id)) {
+            historyManager.add(sT);  //historyManager.add(subTasks.get(id));
         }
-        return subTasks.get(id);
+        return sT;                   //return subTasks.get(id);
     }
 
     //d. Создание подзадачи. Сам объект должен передаваться в качестве параметра.
@@ -109,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
             newSubTask.setId(generationID());
             //System.out.println("numSubTask= " + newSubTask.getId());
 
-            ArrayList<Integer> idEpicSubTasks = epic.getIdSubTask();
+            List<Integer> idEpicSubTasks = epic.getIdSubTask();
             idEpicSubTasks.add(newSubTask.getId());  //добавление нового ID подзадачи в Epic
             //epic.addNewSubTask(id);
             epic.setIdSubTask(idEpicSubTasks);
@@ -159,7 +161,7 @@ public class InMemoryTaskManager implements TaskManager {
     //----------------Epics-------------//
     //a. Получение списка всех эпиков.
     @Override
-    public ArrayList<Epic> getListEpics() {
+    public List<Epic> getListEpics() {
         return new ArrayList<>(epics.values());
     }
 
@@ -173,10 +175,11 @@ public class InMemoryTaskManager implements TaskManager {
     //c. Получение по идентификатору.
     @Override
     public Epic getEpicsById(int id) {
-        if (epics.containsKey(id)) {
-            historyManager.add(epics.get(id));
+        Epic e = epics.get(id);
+        if (e != null) {                   //(epics.containsKey(id)) {
+            historyManager.add(e);         //historyManager.add(epics.get(id));
         }
-        return epics.get(id);
+        return e;                          //return epics.get(id);
     }
 
     //d. Создание эпика. Сам объект должен передаваться в качестве параметра.
@@ -216,8 +219,8 @@ public class InMemoryTaskManager implements TaskManager {
     //a. Получение списка всех подзадач определённого эпика.
     //хранить в эпике List<Integer>, а в методах менеджера пробегаться по этому списку и для каждого id делать subTasks.get(id).
     @Override
-    public ArrayList<SubTask> getListSubTaskByIdEpic(int idEpic) {
-        ArrayList<SubTask> subs = new ArrayList<>();
+    public List<SubTask> getListSubTaskByIdEpic(int idEpic) {
+        List<SubTask> subs = new ArrayList<>();
         for (Integer id : epics.get(idEpic).getIdSubTask()) {
             subs.add(subTasks.get(id));
         }

@@ -4,14 +4,13 @@ import taskmanager.tasks.Epic;
 import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
     //Методы для каждого из типа задач(Задача/Эпик/Подзадача):
     //----------------Tasks-------------//
     //a. Получение списка всех задач.
-    ArrayList<Task> getListTasks();
+    List<Task> getListTasks();
 
     //b. Удаление всех задач.
     void delListTask();
@@ -30,7 +29,7 @@ public interface TaskManager {
 
     //----------------subTasks-------------//
     //a. Получение списка всех подзадач.
-    ArrayList<SubTask> getListSubTasks();
+    List<SubTask> getListSubTasks();
 
     //b. Удаление всех подзадач.
     void delListSubTask();
@@ -49,7 +48,7 @@ public interface TaskManager {
 
     //----------------Epics-------------//
     //a. Получение списка всех эпиков.
-    ArrayList<Epic> getListEpics();
+    List<Epic> getListEpics();
 
     //b. Удаление всех эпиков.
     void delListEpics();
@@ -69,7 +68,7 @@ public interface TaskManager {
     //Дополнительные методы:
     //a. Получение списка всех подзадач определённого эпика.
     //хранить в эпике List<Integer>, а в методах менеджера пробегаться по этому списку и для каждого id делать subTasks.get(id).
-    ArrayList<SubTask> getListSubTaskByIdEpic(int idEpic);
+    List<SubTask> getListSubTaskByIdEpic(int idEpic);
 
     /*Управление статусами осуществляется по следующему правилу:
         a. Менеджер сам не выбирает статус для задачи. Информация о нём приходит менеджеру вместе с информацией о самой задаче.

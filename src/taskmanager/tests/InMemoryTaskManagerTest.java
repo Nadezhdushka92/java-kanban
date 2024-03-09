@@ -23,7 +23,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-        //1
+    //1
     void createTask_shouldGenerateIDandSaveTask() {
         //Prepare
         Task expected = new Task(1, "Задача 1", "Сдать спринт4", Status.NEW);

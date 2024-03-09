@@ -1,10 +1,11 @@
 package taskmanager.tasks;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<Integer> idSubTasks;
+    private List<Integer> idSubTasks;
 
     public Epic(String name, String description, Status status) {
         super(name, description, status);
@@ -35,11 +36,11 @@ public class Epic extends Task {
         return Objects.hash(super.hashCode(), idSubTasks);
     }
 
-    public ArrayList<Integer> getIdSubTask() {
+    public List<Integer> getIdSubTask() {
         return new ArrayList<>(idSubTasks);
     }
 
-    public void setIdSubTask(ArrayList<Integer> idSubTask) {
+    public void setIdSubTask(List<Integer> idSubTask) {
         this.idSubTasks = idSubTask;
     }
 
