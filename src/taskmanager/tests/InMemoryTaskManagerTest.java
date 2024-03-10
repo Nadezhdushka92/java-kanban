@@ -24,7 +24,7 @@ public class InMemoryTaskManagerTest {
 
     @Test
     //1
-    void createTask_shouldGenerateIDandSaveTask() {
+    void createTask_shouldGenerateIdAndSaveTask() {
         //Prepare
         Task expected = new Task(1, "Задача 1", "Сдать спринт4", Status.NEW);
         Task task1 = new Task("Задача 1", "Сдать спринт4", Status.NEW);
@@ -50,7 +50,7 @@ public class InMemoryTaskManagerTest {
 
     //2
     @Test
-    void createEpic_shouldGenerateIDandSaveEpic() {
+    void createEpic_shouldGenerateIdAndSaveEpic() {
         //Prepare
         Epic expected = new Epic(1, "Эпик 1", "Пройти обучение Java", Status.NEW);
         Epic epic1 = new Epic("Эпик 1", "Пройти обучение Java", Status.NEW);
@@ -63,7 +63,7 @@ public class InMemoryTaskManagerTest {
 
     //2
     @Test
-    void createSubTask_shouldGenerateIDandSaveSubTask() {
+    void createSubTask_shouldGenerateIdAndSaveSubTask() {
         //Prepare
         Epic epic2 = new Epic("Эпик 2", "Трудойстройтсво на Java разработчика", Status.NEW);
         Epic added2Epic = inMemoryTaskManager.addEpic(epic2);
@@ -120,7 +120,7 @@ public class InMemoryTaskManagerTest {
         List<Task> history = inMemoryTaskManager.getHistory();
         //Check
         Assertions.assertEquals(1, history.size());
-        Assertions.assertEquals(expected, history.get(0));
+        Assertions.assertEquals(expected, history.getFirst());
     }
 
     //4
