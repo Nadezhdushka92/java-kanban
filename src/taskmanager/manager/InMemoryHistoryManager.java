@@ -2,7 +2,6 @@ package taskmanager.manager;
 
 import taskmanager.tasks.Task;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
