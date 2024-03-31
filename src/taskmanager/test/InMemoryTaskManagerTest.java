@@ -1,4 +1,4 @@
-package taskmanager.tests;
+package taskmanager.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +11,6 @@ import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTest {
     private TaskManager inMemoryTaskManager;
