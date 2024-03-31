@@ -1,16 +1,15 @@
 package taskmanager.manager;
-
-import taskmanager.tasks.Status;
 import taskmanager.tasks.Epic;
-import taskmanager.tasks.SubTask;
-import taskmanager.tasks.Task;
+import taskmanager.tasks.Status;
 
+import taskmanager.tasks.SubTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import taskmanager.tasks.Task;
 
 public class InMemoryTaskManager implements TaskManager {
-    //В мапах хранятся задачи всех типов.
+    /*В мапах хранятся задачи всех типов.*/
     private final HashMap<Integer, Task> tasks = new HashMap<>();
     private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
     private final HashMap<Integer, Epic> epics = new HashMap<>();
@@ -237,7 +236,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateStatusEpic(Epic epic) {
         int counterSubTaskNew = 0;
         int counterSubTaskDone = 0;
-        for (int id : epic.getIdSubTask()) { //SubTask subTask : subTasks.values()
+        for (int id : epic.getIdSubTask()) {
             if (subTasks.get(id).getStatus().equals(Status.NEW)) {
                 counterSubTaskNew++;
                 if (counterSubTaskNew == epic.getIdSubTask().size()) {

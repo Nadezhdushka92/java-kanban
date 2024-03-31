@@ -69,6 +69,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return name + " ID=" + id + ':'+ description + " Status=" + status;
+        return name + " ID=" + id + ':' + description + " Status=" + status;
     }
 }

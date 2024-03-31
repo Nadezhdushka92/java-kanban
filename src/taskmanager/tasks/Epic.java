@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Epic extends Task {
+public final class Epic extends Task {
     private List<Integer> idSubTasks;
 
     public Epic(String name, String description, Status status) {
