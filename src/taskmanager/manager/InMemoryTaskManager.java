@@ -32,6 +32,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void delListTask() {
         tasks.clear();
+        historyManager.clear();
     }
 
     //c. Получение задачи по идентификатору.
@@ -96,16 +97,17 @@ public class InMemoryTaskManager implements TaskManager {
             epic.delAllSubTasks(); //удаление привязок ID подзадач в классе Epic
             updateStatusEpic(epic);
         }
+        historyManager.clear();
     }
 
     //c. Получение подзадачи по идентификатору.
     @Override
     public SubTask getSubTaskById(int id) {
         SubTask sT = subTasks.get(id);
-        if (sT != null) {            //(subTasks.containsKey(id)) {
-            historyManager.add(sT);  //historyManager.add(subTasks.get(id));
+        if (sT != null) {
+            historyManager.add(sT);
         }
-        return sT;                   //return subTasks.get(id);
+        return sT;
     }
 
     //d. Создание подзадачи. Сам объект должен передаваться в качестве параметра.
@@ -181,13 +183,14 @@ public class InMemoryTaskManager implements TaskManager {
     public void delListEpics() {
         epics.clear();
         subTasks.clear();
+        historyManager.clear();
     }
 
     //c. Получение по идентификатору.
     @Override
     public Epic getEpicsById(int id) {
         Epic e = epics.get(id);
-        if (e != null) {                   //(epics.containsKey(id)) {
+        if (e != null) {
             historyManager.add(e);         //historyManager.add(epics.get(id));
         }
         return e;                          //return epics.get(id);
@@ -197,7 +200,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic addEpic(Epic newEpic) {
         newEpic.setId(generationID());
-        //System.out.println("numEPic= " + newEpic.getId());
         epics.put(newEpic.getId(), newEpic);
 
         return newEpic;
@@ -219,15 +221,17 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic deleteEpic(int id) {
         Epic deletedEpic = epics.remove(id);
+        remove(id);
         if (deletedEpic == null) {
             System.out.println("Эпик с указанным ID отсутсвует");
             return null;
         } else {
             for (int idSubTask : deletedEpic.getIdSubTask()) {
                  subTasks.remove(idSubTask);
+                 remove(idSubTask);
             }
         }
-        remove(id);
+
         return deletedEpic;
     }
     //----------------EndEpics-------------//
@@ -278,11 +282,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-//    public void add(Task task) {
-//        historyManager.add(task);
-//    }
-
-    public void remove(Integer id) {
+    public void remove(int id) {
         historyManager.remove(id);
     }
 
