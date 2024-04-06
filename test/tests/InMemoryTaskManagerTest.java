@@ -1,4 +1,4 @@
-package taskmanager.tests;
+package tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +88,7 @@ public class InMemoryTaskManagerTest {
         List<Task> history = inMemoryTaskManager.getHistory();
         //Check
         Assertions.assertEquals(1, history.size());
-        Assertions.assertEquals(expected, history.get(0));
+        Assertions.assertEquals(expected, history.getFirst());
     }
 
     //3
@@ -103,7 +103,7 @@ public class InMemoryTaskManagerTest {
         List<Task> history = inMemoryTaskManager.getHistory();
         //Check
         Assertions.assertEquals(1, history.size());
-        Assertions.assertEquals(expected, history.get(0));
+        Assertions.assertEquals(expected, history.getFirst());
     }
 
     //3
@@ -128,7 +128,7 @@ public class InMemoryTaskManagerTest {
     void addTask_shouldRewriteIdTaskIfAddNewTask() {
         //Prepare
         Task expected = new Task(1, "Задача 4", "Окончание курса Java", Status.NEW);
-        Task task4 = new Task(2, "Задача 4", "Окончание курса Java", Status.NEW);
+        Task task4 = new Task("Задача 4", "Окончание курса Java", Status.NEW);
         Task added4Task = inMemoryTaskManager.addTask(task4);
         //Do
         Task actual = inMemoryTaskManager.getTaskById(1);
@@ -138,23 +138,73 @@ public class InMemoryTaskManagerTest {
 
     //5
     @Test
-    void updateTask_notShouldSaveTheSameTaskToHistory() {
+    void addTwoTaskAndOneUpdateTask_ShouldSaveTwoTasksToHistory() {
         //Prepare
-        Task expected = new Task(1, "Задача 5", "После спринта6 сдать спринт7", Status.NEW);
-        Task expected2 = new Task(1, "Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера", Status.NEW);
-        Task task5 = new Task("Задача 5", "После спринта6 сдать спринт7", Status.NEW);
-        Task added5Task = inMemoryTaskManager.addTask(task5);
+        Task firstExpected = new Task(1, "Задача 5", "После спринта6 сдать спринт7", Status.NEW);
+        //Task task5 = new Task("Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера", Status.NEW);
 
+        //Sprint6
+        Task secondExpected = new Task(2,"Задача 6", "После спринта7 сдать спринт8", Status.NEW);
+        //Task task6 = new Task("Задача 6", "После спринта7 сдать спринт8 с испр. зам. от ревьюера", Status.NEW);
+
+        Task added5Task = inMemoryTaskManager.addTask(firstExpected);
+        //Sprint6
+        Task added6Task = inMemoryTaskManager.addTask(secondExpected);
         //Do
-        Task actual = inMemoryTaskManager.getTaskById(1);
-        Task upd5Task = new Task(1, "Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера", Status.NEW);
-        inMemoryTaskManager.updateTask(upd5Task);
-        Task actual2 = inMemoryTaskManager.getTaskById(1);
+        Task actual1 = inMemoryTaskManager.getTaskById(1);
+
+        Task upd1Task = new Task(1, "Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера!", Status.NEW);
+        inMemoryTaskManager.updateTask(upd1Task);
+        Task actual2 = inMemoryTaskManager.getTaskById(2);
 
         List<Task> history = inMemoryTaskManager.getHistory();
         //Check
         Assertions.assertEquals(2, history.size());
-        Assertions.assertEquals(expected, history.get(0));
-        Assertions.assertEquals(expected2, history.get(1));
+        Assertions.assertEquals(firstExpected, history.getFirst());
+        Assertions.assertEquals(secondExpected, history.getLast());
+    }
+
+    //6
+    @Test
+    void addTwoTaskAndOneUpdateTaskAndDelTaskOne_ShouldSaveOneTasksToHistory() {
+        //Prepare
+        Task firstExpected = new Task(1, "Задача 5", "После спринта6 сдать спринт7", Status.NEW);
+
+        //Sprint6
+        Task secondExpected = new Task(2,"Задача 6", "После спринта7 сдать спринт8", Status.NEW);
+
+        Task added6Task = inMemoryTaskManager.addTask(firstExpected);
+        //Sprint6
+        Task added7Task = inMemoryTaskManager.addTask(secondExpected);
+        //Do
+        Task actual1 = inMemoryTaskManager.getTaskById(1);
+
+        Task upd1Task = new Task(1, "Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера!", Status.NEW);
+        inMemoryTaskManager.updateTask(upd1Task);
+        Task actual2 = inMemoryTaskManager.getTaskById(2);
+        inMemoryTaskManager.deleteTask(2);
+
+        List<Task> history = inMemoryTaskManager.getHistory();
+        //Check
+        Assertions.assertEquals(1, history.size());
+        Assertions.assertEquals(firstExpected, history.getFirst());
+    }
+
+    //7
+    @Test
+    void getEpicById_shouldSaveSubTaskToHistory() {
+        //Prepare
+        Epic expectedEpic7 = new Epic(1,"Эпик 7", "Работа Java разработчиком", Status.NEW);
+        Epic added7Epic = inMemoryTaskManager.addEpic(expectedEpic7);
+        SubTask expectedSubTask = new SubTask(2, "Подзадача 2", "Пройти практику Java", Status.NEW, 1);
+        SubTask added2SubTask = inMemoryTaskManager.addSubTask(expectedSubTask);
+        //Do
+        Epic actualEpic = inMemoryTaskManager.getEpicsById(1);
+        SubTask actual = inMemoryTaskManager.getSubTaskById(2);
+        List<Task> history = inMemoryTaskManager.getHistory();
+        //Check
+        Assertions.assertEquals(2, history.size());
+        Assertions.assertEquals(expectedEpic7, history.getFirst());
+        Assertions.assertEquals(expectedSubTask, history.getLast());
     }
 }

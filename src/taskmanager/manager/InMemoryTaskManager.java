@@ -70,7 +70,14 @@ public class InMemoryTaskManager implements TaskManager {
     //f. Удаление задачи по идентификатору.*/
     @Override
     public Task deleteTask(int id) {
-        return tasks.remove(id);
+        Task deletedTask = tasks.remove(id);
+        if (deletedTask == null) {
+            System.out.println("Задача с указанным ID отсутствует");
+            return null;
+        } else {
+            remove(id);
+        }
+        return deletedTask;
     }
     //----------------EndTasks-------------//
 
@@ -112,7 +119,6 @@ public class InMemoryTaskManager implements TaskManager {
 
             List<Integer> idEpicSubTasks = epic.getIdSubTask();
             idEpicSubTasks.add(newSubTask.getId());  //добавление нового ID подзадачи в Epic
-            //epic.addNewSubTask(id);
             epic.setIdSubTask(idEpicSubTasks);
 
             subTasks.put(newSubTask.getId(), newSubTask);
@@ -145,12 +151,18 @@ public class InMemoryTaskManager implements TaskManager {
         SubTask deletedSubTask = subTasks.remove(id);
         if (deletedSubTask == null) {
             System.out.println("Нет такой подзадачи");
-
+            return null;
         } else {
             Epic epic = epics.get(deletedSubTask.getIdEpic());
-            //epic.getIdSubTask().remove(id);  //удаление привязки ID подзадач в классе Epic
-            epic.delSubTask(id); //удаление привязки ID подзадач в классе Epic
 
+            List<Integer> idEpicSubTasks = epic.getIdSubTask();
+            for (Integer i : idEpicSubTasks) {
+                if (i.equals(id)) {
+                    epic.delSubTask(idEpicSubTasks.indexOf(i)); //удаление привязки ID подзадач в классе Epic
+                }
+            }
+
+            remove(id);
             updateStatusEpic(epic);
         }
         return deletedSubTask;
@@ -207,9 +219,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic deleteEpic(int id) {
         Epic deletedEpic = epics.remove(id);
-        for (int idSubTask : deletedEpic.getIdSubTask()) {
-            subTasks.remove(idSubTask);
+        if (deletedEpic == null) {
+            System.out.println("Эпик с указанным ID отсутсвует");
+            return null;
+        } else {
+            for (int idSubTask : deletedEpic.getIdSubTask()) {
+                 subTasks.remove(idSubTask);
+            }
         }
+        remove(id);
         return deletedEpic;
     }
     //----------------EndEpics-------------//
@@ -260,9 +278,16 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
+//    public void add(Task task) {
+//        historyManager.add(task);
+//    }
+
+    public void remove(Integer id) {
+        historyManager.remove(id);
+    }
+
     public List<Task> getHistory() {
-        return new ArrayList<>(historyManager.getHistory());
+        return new ArrayList<>(historyManager.getHistory()); //
     }
 
     public int generationID() {
