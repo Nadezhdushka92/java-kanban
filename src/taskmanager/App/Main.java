@@ -73,7 +73,7 @@ public class Main {
         inMemoryTaskManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
 
         System.out.println("************************************");
-        System.out.println("\nВывод истории getHistory() после удаления 3 задачи:");
+        System.out.println("\nВывод истории getHistory() после удаления 3 подзадачи:");
         for (Task task : inMemoryTaskManager.getHistory()) {
             System.out.println(task);
         }
