@@ -151,16 +151,15 @@ public class InMemoryTaskManagerTest {
         //Sprint6
         Task added6Task = inMemoryTaskManager.addTask(secondExpected);
         //Do
-        Task actual1 = inMemoryTaskManager.getTaskById(1);
-
         Task upd1Task = new Task(1, "Задача 5", "После спринта6 сдать спринт7 с испр. зам. от ревьюера!", Status.NEW);
         inMemoryTaskManager.updateTask(upd1Task);
+        Task actual1 = inMemoryTaskManager.getTaskById(1);
         Task actual2 = inMemoryTaskManager.getTaskById(2);
 
         List<Task> history = inMemoryTaskManager.getHistory();
         //Check
         Assertions.assertEquals(2, history.size());
-        Assertions.assertEquals(firstExpected, history.getFirst());
+        Assertions.assertEquals(upd1Task, history.getFirst());
         Assertions.assertEquals(secondExpected, history.getLast());
     }
 
