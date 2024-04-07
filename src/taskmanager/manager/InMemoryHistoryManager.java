@@ -55,11 +55,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void clear() {
-        historyMap.clear();
-    }
-
-    @Override
     public List<Task> getHistory() {
         return getTasks();
     }
