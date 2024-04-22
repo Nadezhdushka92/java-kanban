@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     protected String fileSave;
@@ -17,6 +16,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public FileBackedTaskManager(String fileSave) {
         this.fileSave = fileSave;
     }
+
     public static void main(String[] args) {
         String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
 
@@ -50,8 +50,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         newBackedTasksManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
         newBackedTasksManager.deleteEpic(7);//в истории не должно быть 2 эпика
-
     }
+
     private void save() {
         try {
             Writer writer = new FileWriter(fileSave);
