@@ -2,8 +2,6 @@ package taskmanager.tasks;
 
 import java.util.Objects;
 
-import static taskmanager.tasks.TaskType.TASK;
-
 public class Task {
     protected TaskType type;
     protected int id = 0;
