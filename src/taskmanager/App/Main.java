@@ -1,5 +1,6 @@
 package taskmanager.App;
 
+import taskmanager.manager.FileBackedTaskManager;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.tasks.Epic;
@@ -7,47 +8,45 @@ import taskmanager.tasks.Status;
 import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         TaskManager inMemoryTaskManager = Managers.getDefaultTaskManager();
+        //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
 
+        //FileBackedTaskManager backedTasksManager = new FileBackedTaskManager(fileSavedHistory);
+
+        //List<String> strings = Files.readAllLines(Paths.get("resources/saveTaskManager.csv"));//StandardCharsets.UTF_8
         //Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
         System.out.println("***Создание двух задач***");
-        Task task1 = new Task("Задача 1","Сдать спринт6",Status.NEW);
-        Task added1Task = inMemoryTaskManager.addTask(task1);
+
+        Task added1Task = inMemoryTaskManager.addTask(new Task("Задача 1","Сдать спринт6"));
         System.out.println("Добавлена задача: " + added1Task);
 
-        Task task2 = new Task("Задача 2","После спринта6 сдать спринт7",Status.NEW);
-        Task added2Task = inMemoryTaskManager.addTask(task2);
+        Task added2Task = inMemoryTaskManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7"));
         System.out.println("Добавлена задача: " + added2Task);
 
         System.out.println("\n***Создание эпика с тремя позадачами***");
-        Epic epic1 = new Epic("Эпик 1","Пройти обучение Java", Status.NEW);
-        Epic added1Epic = inMemoryTaskManager.addEpic(epic1);
+        Epic added1Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 1","Пройти обучение Java"));
         System.out.println("Добавлен эпик: " + added1Epic);
 
-        SubTask subTask1 = new SubTask("Подзадача 1","Пройти теорию Java", Status.DONE, 3);
-        SubTask added1subTask = inMemoryTaskManager.addSubTask(subTask1);
+        SubTask added1subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 3));
         System.out.println("Добавлена подазадача: " + added1subTask);
 
-        SubTask subTask2 = new SubTask("Подзадача 2","Пройти практику Java", Status.IN_PROGRESS, 3);
-        SubTask added2subTask = inMemoryTaskManager.addSubTask(subTask2);
+        SubTask added2subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 3));
         System.out.println("Добавлена подазадача: " + added2subTask);
 
-        SubTask subTask3 = new SubTask("Подзадача 3","Успешное окончание курса Java", Status.NEW, 3);
-        SubTask added3subTask = inMemoryTaskManager.addSubTask(subTask3);
+        SubTask added3subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 3));
         System.out.println("Добавлена подзадача: " + added3subTask);
 
-        System.out.println("Статус Epic: " + epic1.getStatus());
-        System.out.println("Статус задачи1: " + added1subTask.getStatus());
-        System.out.println("Статус задачи2: " + added2subTask.getStatus());
-        System.out.println("Статус задачи3: " + added3subTask.getStatus());
-
-
         System.out.println("\n***Создание второго эпика без подзадач***");
-        Epic epic2 = new Epic("Эпик 2","Трудойстройтсво на Java разработчика", Status.NEW);
-        Epic added2Epic = inMemoryTaskManager.addEpic(epic2);
+        Epic added2Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика"));
         System.out.println("Добавлен эпик: " + added2Epic);
 
         //Распечатайте списки эпиков, задач и подзадач через System.out.println(..)
@@ -85,7 +84,9 @@ public class Main {
         for (Task task : inMemoryTaskManager.getHistory()) {
             System.out.println(task);
         }
-        }
+        //FileBackedTaskManager newBackedTasksManager = (FileBackedTaskManager) FileBackedTaskManager.loadFromFile(fileSavedHistory);
+
+    }
 }
 
 
