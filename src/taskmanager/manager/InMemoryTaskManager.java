@@ -10,9 +10,9 @@ import taskmanager.tasks.Task;
 
 public class InMemoryTaskManager implements TaskManager {
     /*В мапах хранятся задачи всех типов.*/
-    protected static HashMap<Integer, Task> tasks = new HashMap<>();
+    protected HashMap<Integer, Task> tasks = new HashMap<>();
     protected final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    protected static HashMap<Integer, Epic> epics = new HashMap<>();
+    protected HashMap<Integer, Epic> epics = new HashMap<>();
     protected HistoryManager historyManager = Managers.getDefaultHistoryManager();
     protected int idCnt = 0;
 

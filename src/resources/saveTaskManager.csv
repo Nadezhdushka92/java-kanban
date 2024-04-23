@@ -1,9 +1,6 @@
 id,type,name,status,description,epic
-1,TASK,Задача 1,NEW,Сдать спринт6
-2,TASK,Задача 2,NEW,После спринта6 сдать спринт7
-3,EPIC,Эпик 1,NEW,Пройти обучение Java
-4,SUBTASK,Подзадача 1,NEW,Пройти теорию Java,3
-5,SUBTASK,Подзадача 2,NEW,Пройти практику Java,3
+1,EPIC,Эпик 1,NEW,Пройти обучение Java
+2,SUBTASK,Подзадача 1,NEW,Пройти практику Java,1
 
 
-5,1,2,3,4
+2

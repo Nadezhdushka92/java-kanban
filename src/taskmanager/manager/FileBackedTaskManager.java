@@ -80,8 +80,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             bufferedWriter.write("\n");
             bufferedWriter.write(historyToString(historyManager));//Managers.getDefaultTaskManager())
             bufferedWriter.close();
-        } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка при записи.");
+        } catch (IOException exception) {
+            throw new ManagerSaveException("Ошибка при записи.", exception);
         }
     }
 
@@ -108,7 +108,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return fileBackedTaskManager;
     }
     String[] lineTask = taskString.split("\n");
-    List<Integer> idTask = historyFromString(file);
+    List<Integer> idTasksFromFile = historyFromString(file);
 
     for (int i = 1; i < lineTask.length; i++) {
         if (lineTask[i].isEmpty()) {
@@ -116,7 +116,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
         Task task = fileBackedTaskManager.fromString(lineTask[i]);
         if (task != null) {
-            for (Integer id : idTask) {
+            for (Integer id : idTasksFromFile) {
                 if (task.getId() == id) {
                     fileBackedTaskManager.historyManager.add(task);
                 }
@@ -132,29 +132,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         switch (TaskType.valueOf(word[1])) {
             case TASK:
-                Task task = new Task(word[2], word[4]);
-                task.setId(Integer.parseInt(word[0]));
-                addTask(task);
-                task.setStatus(Status.valueOf(word[3]));
-
-                updateTask(task);
+                Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
+                //task.setId(Integer.parseInt(word[0]));
+                //addTask(task);
+                tasks.put(Integer.parseInt(word[0]), task);//addTask(task);
+                //task.setStatus(Status.valueOf(word[3]));
+                //updateTask(task);
                 return task;
 
             case EPIC:
-                Epic epic = new Epic(word[2], word[4]);
-                epic.setId(Integer.parseInt(word[0]));
-                addEpic(epic);
-                epic.setStatus(Status.valueOf(word[3]));
-                updateEpic(epic);
+                Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]));
+                //epic.setId(Integer.parseInt(word[0]));
+                //addEpic(epic);
+                epics.put(Integer.parseInt(word[0]), epic);//addTask(task);
+                //epic.setStatus(Status.valueOf(word[3]));
+                //updateEpic(epic);
                 return epic;
 
             case SUBTASK:
-                SubTask subTask = new SubTask(word[2], word[4], epics.get(Integer.parseInt(word[5])).getId());
-                subTask.setId(Integer.parseInt(word[0]));
-                addSubTask(subTask);
-                subTask.setStatus(Status.valueOf(word[3]));
-
-                updateSubTask(subTask);
+                SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), epics.get(Integer.parseInt(word[5])).getId());
+                //subTask.setId(Integer.parseInt(word[0]));
+                //addSubTask(subTask);
+                subTasks.put(Integer.parseInt(word[0]), subTask);
+                //subTask.setStatus(Status.valueOf(word[3]));
+                //updateSubTask(subTask);
                 return subTask;
         }
         return null;
