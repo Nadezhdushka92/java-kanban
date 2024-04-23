@@ -39,8 +39,8 @@ public class InMemoryTaskManagerTest {
     @Test
     void getTaskById_shouldReturnTask() {
         //Prepare
-        Task expected = new Task("Задача 2", "После спринта4 сдать спринт5");
-        Task task2 = new Task("Задача 2", "После спринта4 сдать спринт5");
+        Task expected = new Task(1,"Задача 2", "После спринта4 сдать спринт5",Status.NEW);
+        Task task2 = new Task(2,"Задача 2", "После спринта4 сдать спринт5",Status.NEW);
         Task added2Task = inMemoryTaskManager.addTask(task2);
         //Do
         Task actual = inMemoryTaskManager.getTaskById(1);

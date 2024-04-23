@@ -129,7 +129,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private Task fromString(String s) {
         String[] word = s.split(",");
-
+        try {
         switch (TaskType.valueOf(word[1])) {
             case TASK:
                 Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
@@ -157,6 +157,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 //subTask.setStatus(Status.valueOf(word[3]));
                 //updateSubTask(subTask);
                 return subTask;
+        }
+        } catch (IllegalArgumentException exception) {
+            throw new ManagerSaveException("Ошибка при проверке перечислений", exception);
         }
         return null;
     }
