@@ -18,9 +18,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        String fileSave = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
 
-        FileBackedTaskManager newBackedTasksManager = (FileBackedTaskManager) FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        FileBackedTaskManager newBackedTasksManager = loadFromFile(fileSave);
+
         Task added1Task = newBackedTasksManager.addTask(new Task("Задача 1","Сдать спринт6"));
 
         Task added2Task = newBackedTasksManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7"));
@@ -99,7 +100,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return taskString.toString();
     }
 
-    public static TaskManager loadFromFile(String file) {
+    public static FileBackedTaskManager loadFromFile(String file) {
     //Cчитываем содержимое файла
     FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
 
@@ -128,10 +129,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 }
 
     private Task fromString(String s) {
+        List<Integer> idEpicSubTasks = new ArrayList<>();
+
         String[] word = s.split(",");
         try {
-        switch (TaskType.valueOf(word[1])) {
-            case TASK:
+        switch (word[1]) {
+            case "TASK":
                 Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
                 //task.setId(Integer.parseInt(word[0]));
                 //addTask(task);
@@ -140,7 +143,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 //updateTask(task);
                 return task;
 
-            case EPIC:
+            case "EPIC":
                 Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]));
                 //epic.setId(Integer.parseInt(word[0]));
                 //addEpic(epic);
@@ -149,11 +152,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 //updateEpic(epic);
                 return epic;
 
-            case SUBTASK:
-                SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), epics.get(Integer.parseInt(word[5])).getId());
+            case "SUBTASK":
+                SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), Integer.parseInt(word[5]));
                 //subTask.setId(Integer.parseInt(word[0]));
                 //addSubTask(subTask);
                 subTasks.put(Integer.parseInt(word[0]), subTask);
+
+                //взятие ID эпика:
+                int idEpic = subTask.getIdEpic();
+                idEpicSubTasks.add(Integer.parseInt(word[0]));
+                epics.get(idEpic).setIdSubTask(idEpicSubTasks);//добавление нового ID подзадачи в Epic
+
                 //subTask.setStatus(Status.valueOf(word[3]));
                 //updateSubTask(subTask);
                 return subTask;

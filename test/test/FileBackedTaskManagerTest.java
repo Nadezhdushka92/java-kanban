@@ -57,17 +57,17 @@ public class FileBackedTaskManagerTest {
         assertEquals(expectedEpic.getId(), idEpic);
     }
 //Разберусь позднее, ругается дебаггер на отсутствие констант
-//    @Test
-//    public void equalsClassSubTaskIdAndFile() {
-//        //Prepare
-//        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java");
-//        SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 1);
-//        fileBackedTaskManager.addEpic(expectedEpic);
-//        fileBackedTaskManager.addSubTask(expectedSubTask);
-//        //Do
-//        int idSubTask = fileBackedTaskManager.getSubTaskById(expectedSubTask.getId()).getId();
-//        System.out.println(idSubTask);
-//        //Check
-//        assertEquals(expectedSubTask.getId(), idSubTask);
-//    }
+    @Test
+    public void equalsClassSubTaskIdAndFile() {
+        //Prepare
+        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java");
+        SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 1);
+        fileBackedTaskManager.addEpic(expectedEpic);
+        fileBackedTaskManager.addSubTask(expectedSubTask);
+        //Do
+        int idSubTask = fileBackedTaskManager.getSubTaskById(expectedSubTask.getId()).getId();
+        System.out.println(idSubTask);
+        //Check
+        assertEquals(expectedSubTask.getId(), idSubTask);
+    }
 }
