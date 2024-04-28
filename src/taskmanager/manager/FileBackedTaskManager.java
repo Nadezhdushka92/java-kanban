@@ -138,7 +138,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         List<Integer> idEpicSubTasks = new ArrayList<>();
 
         int mID = 0;
-        
         String[] word = s.split(",");
         try {
             switch (word[1]) {
@@ -154,7 +153,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     //task.setStatus(Status.valueOf(word[3]));
                     //updateTask(task);
                     return task;
-            
             case "EPIC":
                 int idE = Integer.parseInt(word[0]);
                 Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]));
@@ -167,7 +165,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 //epic.setStatus(Status.valueOf(word[3]));
                 //updateEpic(epic);
             return epic;
-        
             case "SUBTASK":
                 int idS = Integer.parseInt(word[0]);
                 SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), Integer.parseInt(word[5]));
