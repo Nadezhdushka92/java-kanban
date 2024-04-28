@@ -10,14 +10,17 @@ import taskmanager.tasks.Task;
 
 public class InMemoryTaskManager implements TaskManager {
     /*В мапах хранятся задачи всех типов.*/
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HistoryManager historyManager;
-    private int idCnt = 0;
+    protected HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected HashMap<Integer, Epic> epics = new HashMap<>();
+    protected HistoryManager historyManager = Managers.getDefaultHistoryManager();
+    protected int idCnt = 0;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
+    }
+
+    public InMemoryTaskManager() {
     }
 
     //Методы для каждого из типа задач(Задача/Эпик/Подзадача):
@@ -43,8 +46,9 @@ public class InMemoryTaskManager implements TaskManager {
         Task t = tasks.get(id);
         if (t != null) {                     //(tasks.containsKey(id)) {
             historyManager.add(t);           //historyManager.add(tasks.get(id));
+            return t;
         }
-        return t;                            //return tasks.get(id);
+        return null;                            //return tasks.get(id);
     }
 
     //d. Создание задачи. Сам объект должен передаваться в качестве параметра.

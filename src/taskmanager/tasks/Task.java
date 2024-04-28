@@ -3,10 +3,18 @@ package taskmanager.tasks;
 import java.util.Objects;
 
 public class Task {
-    private int id = 0;
-    private String name;
-    private String description;
-    private Status status;
+    protected TaskType type;
+    protected int id = 0;
+    protected String name;
+    protected String description;
+    protected Status status;
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.type = TaskType.TASK;
+    }
 
     public Task(String name, String description, Status status) {
         //this.id = getId();
@@ -20,6 +28,10 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task() {
+
     }
 
     public String getName() {
@@ -54,21 +66,29 @@ public class Task {
         this.status = status;
     }
 
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+
+    public TaskType getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(getId()) + ',' + getType() + "," + name + "," + status + "," + description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+        return id == task.id && type == task.type && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, status);
-    }
-
-    @Override
-    public String toString() {
-        return name + " ID=" + id + ':' + description + " Status=" + status;
+        return Objects.hash(type, id, name, description, status);
     }
 }

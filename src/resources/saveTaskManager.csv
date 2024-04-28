@@ -1,0 +1,6 @@
+id,type,name,status,description,epic
+1,EPIC,Эпик 1,NEW,Пройти обучение Java
+2,SUBTASK,Подзадача 1,NEW,Пройти практику Java,1
+
+
+2
