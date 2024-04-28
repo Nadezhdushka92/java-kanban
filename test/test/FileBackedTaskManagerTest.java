@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest {
-    private TaskManager fileBackedTaskManager;
+    private FileBackedTaskManager fileBackedTaskManager;
 
     @BeforeEach
     void initTests() {
@@ -26,14 +26,6 @@ public class FileBackedTaskManagerTest {
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
         File fileSavedHistory =new File("./java-kanban/src/resources/saveTaskManager.csv");
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
-    }
-
-    public TaskManager getFileBackedTaskManager () {
-        return fileBackedTaskManager;
-    }
-
-    public void setFileBackedTaskManager (TaskManager fileBackedTaskManager) {
-        this.fileBackedTaskManager = fileBackedTaskManager;
     }
 
     @Test
