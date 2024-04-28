@@ -9,16 +9,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    protected String fileSave;
 
-    public FileBackedTaskManager(String fileSave) {
+    public FileBackedTaskManager(File fileSave) {
         this.fileSave = fileSave;
     }
 
+    protected final File fileSave;
+
     public static void main(String[] args) {
-        String fileSave = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        File fileSave = new File("./java-kanban/src/resources/saveTaskManager.csv");
+        //String fileSave = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        //String fileSave = Paths.get("./java-kanban/src/resources/saveTaskManager.csv").getFileName().toString();
 
         FileBackedTaskManager newBackedTasksManager = loadFromFile(fileSave);
 
@@ -53,34 +57,36 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         newBackedTasksManager.deleteEpic(7);//в истории не должно быть 2 эпика
     }
 
-    private void save() {
+    public void save() {
+        final String taskFields = "id,type,name,status,description,epic";
         try {
-            Writer writer = new FileWriter(fileSave);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileSave,  StandardCharsets.UTF_8));
+            //Writer writer = new FileWriter(fileSave);
+            //BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
-            String taskFields = "id,type,name,status,description,epic";
-            bufferedWriter.write(taskFields);
-            bufferedWriter.write("\n");
+            writer.write(taskFields);
+            writer.write("\n");
 
             if (!tasks.isEmpty()) {
                 for (Task task : tasks.values()) {
-                    bufferedWriter.write(task.toString() + "\n");
+                    writer.write(task.toString() + "\n");
+
                 }
             }
             if (!epics.isEmpty()) {
                 for (Epic epic : epics.values()) {
-                    bufferedWriter.write(epic.toString() + "\n");
+                    writer.write(epic.toString() + "\n");
                 }
             }
             if (!subTasks.isEmpty()) {
                 for (SubTask subTask : subTasks.values()) {
-                    bufferedWriter.write(subTask.toString() + "\n");
+                    writer.write(subTask.toString() + "\n");
                 }
             }
 
-            bufferedWriter.write("\n");
-            bufferedWriter.write(historyToString(historyManager));//Managers.getDefaultTaskManager())
-            bufferedWriter.close();
+            writer.write("\n");
+            writer.write(historyToString(historyManager));//Managers.getDefaultTaskManager())
+            writer.close();
         } catch (IOException exception) {
             throw new ManagerSaveException("Ошибка при записи.", exception);
         }
@@ -100,11 +106,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return taskString.toString();
     }
 
-    public static FileBackedTaskManager loadFromFile(String file) {
+    public static FileBackedTaskManager loadFromFile(File file) {
     //Cчитываем содержимое файла
     FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
 
-    String taskString = parsingFile(file);
+    String taskString = parsingFile(file.getParentFile().toString());
     if (taskString == null) {
         return fileBackedTaskManager;
     }
@@ -131,53 +137,73 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private Task fromString(String s) {
         List<Integer> idEpicSubTasks = new ArrayList<>();
 
+        int mID = 0;
+        
         String[] word = s.split(",");
         try {
-        switch (word[1]) {
-            case "TASK":
-                Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
-                //task.setId(Integer.parseInt(word[0]));
-                //addTask(task);
-                tasks.put(Integer.parseInt(word[0]), task);//addTask(task);
-                //task.setStatus(Status.valueOf(word[3]));
-                //updateTask(task);
-                return task;
-
+            switch (word[1]) {
+                case "TASK":
+                    int idT = Integer.parseInt(word[0]);
+                    Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
+                    //task.setId(Integer.parseInt(word[0]));
+                    //addTask(task);
+                    if (idT > mID) {
+                        mID = idT;
+                    }
+                    tasks.put(mID, task);//addTask(task);
+                    //task.setStatus(Status.valueOf(word[3]));
+                    //updateTask(task);
+                    return task;
+            
             case "EPIC":
+                int idE = Integer.parseInt(word[0]);
                 Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]));
                 //epic.setId(Integer.parseInt(word[0]));
                 //addEpic(epic);
-                epics.put(Integer.parseInt(word[0]), epic);//addTask(task);
+                if (idE > mID) {
+                    mID = idE;
+                }
+                epics.put(mID, epic);//addTask(task);
                 //epic.setStatus(Status.valueOf(word[3]));
                 //updateEpic(epic);
-                return epic;
-
+            return epic;
+        
             case "SUBTASK":
+                int idS = Integer.parseInt(word[0]);
                 SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), Integer.parseInt(word[5]));
                 //subTask.setId(Integer.parseInt(word[0]));
                 //addSubTask(subTask);
-                subTasks.put(Integer.parseInt(word[0]), subTask);
+                if (idS > mID) {
+                    mID = idS;
+                }
+                subTasks.put(mID, subTask);
 
                 //взятие ID эпика:
-                int idEpic = subTask.getIdEpic();
-                idEpicSubTasks.add(Integer.parseInt(word[0]));
-                epics.get(idEpic).setIdSubTask(idEpicSubTasks);//добавление нового ID подзадачи в Epic
-
+                int tmpIdEpic = subTask.getIdEpic();
+                Epic epicOfSubTask = epics.get(tmpIdEpic);
+                //запоминаем в лист номера подазач определенного эпика
+                var idSubTasks = epicOfSubTask.getIdSubTask();
+                //добавляем в лист с номерами подазад номер подзадачи, связанный с нужным эпиком
+                idSubTasks.add(Integer.parseInt(word[0]));
+                //восстанавливаем номера подзадач для опредленного эпика
+                epicOfSubTask.setIdSubTask(idSubTasks);
+                //idEpicSubTasks.add(Integer.parseInt(word[0]));
+                //epics.get(idEpic).setIdSubTask(idEpicSubTasks);//добавление нового ID подзадачи в Epic
                 //subTask.setStatus(Status.valueOf(word[3]));
                 //updateSubTask(subTask);
                 return subTask;
-        }
+            }
         } catch (IllegalArgumentException exception) {
             throw new ManagerSaveException("Ошибка при проверке перечислений", exception);
         }
         return null;
     }
 
-    private static List<Integer> historyFromString(String file) {
+    private static List<Integer> historyFromString(File file) {
         if (file == null) {
             return new ArrayList<>();
         }
-        String[] arrayHistory = parsingFile(file).split("\n");
+        String[] arrayHistory = Objects.requireNonNull(parsingFile(file.getParentFile().toString())).split("\n");
         if (arrayHistory.length < 8) {
             return new ArrayList<>();
         }
@@ -186,9 +212,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         List<Integer> historyList = new ArrayList<>();
 
         for (String line : lineHistory) {
-            historyList.add(Integer.parseInt(line));
+            int id = Integer.parseInt(line);
+            //if (id > 0) {
+                historyList.add(Integer.parseInt(line));
+
+            //}
         }
-        return historyList;
+        return historyList;//return null;
     }
 
     private static String parsingFile(String path) {

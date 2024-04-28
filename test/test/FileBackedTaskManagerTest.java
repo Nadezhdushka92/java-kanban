@@ -13,6 +13,7 @@ import taskmanager.tasks.Task;
 import taskmanager.tasks.TaskType;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +22,9 @@ public class FileBackedTaskManagerTest {
 
     @BeforeEach
     void initTests() {
-        String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
+        File fileSavedHistory =new File("./java-kanban/src/resources/saveTaskManager.csv");
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
     }
 
@@ -29,7 +32,7 @@ public class FileBackedTaskManagerTest {
         return fileBackedTaskManager;
     }
 
-    public void setFileBackedTaskManager ( TaskManager fileBackedTaskManager ) {
+    public void setFileBackedTaskManager (TaskManager fileBackedTaskManager) {
         this.fileBackedTaskManager = fileBackedTaskManager;
     }
 
@@ -56,7 +59,7 @@ public class FileBackedTaskManagerTest {
         //Check
         assertEquals(expectedEpic.getId(), idEpic);
     }
-//Разберусь позднее, ругается дебаггер на отсутствие констант
+
     @Test
     public void equalsClassSubTaskIdAndFile() {
         //Prepare

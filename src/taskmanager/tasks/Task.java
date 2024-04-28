@@ -76,7 +76,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return Integer.toString(id) + ',' + type + "," + name + "," + status + "," + description;
+        return Integer.toString(getId()) + ',' + getType() + "," + name + "," + status + "," + description;
     }
 
     @Override
