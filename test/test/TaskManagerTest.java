@@ -22,7 +22,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     void createTask_shouldGenerateIdAndSaveTaskTest() throws IOException {
         //Prepare
         //Task expected = new Task(1, "Задача 1", "Сдать спринт4", Status.NEW, 0, LocalDateTime.now());
-        Task task1 = new Task("Задача 1", "Сдать спринт4", Status.NEW, 0, LocalDateTime.now());
+        Task task1 = new Task("Задача 1", "Сдать спринт4", Status.NEW, 0, null);
         //DO
         Task added1Task = manager.addTask(task1);
         List<Task> taskList = manager.getListTasks();

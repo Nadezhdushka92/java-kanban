@@ -1,6 +1,8 @@
 package taskmanager.manager;
 
 
+import java.io.File;
+
 public class Managers { //static?
     private Managers() {
 
@@ -14,4 +16,7 @@ public class Managers { //static?
         return new InMemoryHistoryManager();
     }
 
+    public static TaskManager getDefaultFileBackedTaskManager() {
+        return new FileBackedTaskManager(new File("./java-kanban/test/resources/saveTaskManagerFile.csv"));
+    }
 }
