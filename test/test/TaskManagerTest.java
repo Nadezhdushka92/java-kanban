@@ -6,6 +6,8 @@ import taskmanager.tasks.Epic;
 import taskmanager.tasks.Status;
 import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +19,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
     //1
     @Test
-    void createTask_shouldGenerateIdAndSaveTaskTest() {
+    void createTask_shouldGenerateIdAndSaveTaskTest() throws IOException {
         //Prepare
         //Task expected = new Task(1, "Задача 1", "Сдать спринт4", Status.NEW, 0, LocalDateTime.now());
         Task task1 = new Task("Задача 1", "Сдать спринт4", Status.NEW, 0, LocalDateTime.now());
@@ -33,9 +35,9 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void TimeOfExecuteTaskTest() {
+    public void TimeOfExecuteTaskTest() throws IOException {
         Task added7Task = manager.addTask(new Task("Задача 7","После спринта8 сдать спринт9", 0,
-                null));
+            null));
         LocalDateTime timeStartIsEmpty = added7Task.getStartTime();
         LocalDateTime timeEndIsEmpty = added7Task.getEndTime();
         long durationIsEmpty = added7Task.getDuration();
@@ -60,7 +62,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
     }
 
     @Test
-    public void createEpic_shouldGenerateIdAndSaveEpicTest() {
+    public void createEpic_shouldGenerateIdAndSaveEpicTest() throws IOException {
         //Prepare
         //Epic expected = new Epic(1, "Эпик 1", "Пройти обучение Java", Status.NEW, 0, LocalDateTime.now());
         Epic epic1 = new Epic("Эпик 1", "Пройти обучение Java", Status.NEW, 0, LocalDateTime.now());
@@ -76,7 +78,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
     //2
     @Test
-    void createSubTask_shouldGenerateIdAndSaveSubTaskTest() {
+    void createSubTask_shouldGenerateIdAndSaveSubTaskTest() throws IOException {
         //Prepare
         Epic epic2 = new Epic("Эпик 2", "Трудойстройтсво на Java разработчика", Status.NEW, 0, LocalDateTime.now());
         Epic added2Epic = manager.addEpic(epic2);
@@ -95,7 +97,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
 
 @Test
-public void TimeOfExecuteSubTaskTest() {
+public void TimeOfExecuteSubTaskTest() throws IOException {
     //Prepare
     Epic added1Epic = manager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 0,
             null));
@@ -126,7 +128,7 @@ public void TimeOfExecuteSubTaskTest() {
 }
 
 @Test
-public void getAllTasksTest() {
+public void getAllTasksTest() throws IOException {
     //Prepare
     Task added3Task = manager.addTask(new Task("Задача 1","Сдать спринт8", 1,
             LocalDateTime.now().plusHours(1)));
@@ -140,7 +142,7 @@ public void getAllTasksTest() {
 }
 
 @Test
-public void getHistoryTest() {
+public void getHistoryTest() throws IOException {
     //Prepare
     Task added5Task = manager.addTask(new Task("Задача 1","Сдать спринт9", 1,
             LocalDateTime.now().plusHours(1)));
@@ -153,9 +155,9 @@ public void getHistoryTest() {
 }
 
 @Test
-public void getPrioritizedTasksTest() {
+public void getPrioritizedTasksTest() throws IOException {
     Task added6Task = manager.addTask(new Task("Задача 1","Сдать Модуль 2", 1,
-            LocalDateTime.now().plusHours(1)));
+LocalDateTime.now().plusHours(1)));
 
     List<Task> prioritizedTasks = manager.getPrioritizedTasks();
 
