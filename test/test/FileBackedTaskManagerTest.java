@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
-    private FileBackedTaskManager fileBackedTaskManager;
+    protected FileBackedTaskManager fileBackedTaskManager;
 
     @BeforeEach
     public void initTests() {
@@ -27,7 +27,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
         File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerFileTest.csv");
         this.manager = new FileBackedTaskManager(fileSavedHistory);
-        //fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
 
     }
 

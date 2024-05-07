@@ -21,45 +21,45 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-//        File fileSave = new File("./java-kanban/src/resources/saveTaskManager.csv");
-//        //String fileSave = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
-//        //String fileSave = Paths.get("./java-kanban/src/resources/saveTaskManager.csv").getFileName().toString();
-//
-//        FileBackedTaskManager newBackedTasksManager = loadFromFile(fileSave);
-//
-//        Task added1Task = newBackedTasksManager.addTask(new Task("Задача 1","Сдать спринт6", 1,
-//                LocalDateTime.now().plusHours(1)));
-//
-//        Task added2Task = newBackedTasksManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7", 1,
-//                LocalDateTime.now().plusHours(2)));
-//
-//        Epic added1Epic = newBackedTasksManager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 1,
-//                LocalDateTime.now().plusHours(3)));
-//
-//        SubTask added1subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 1,
-//                LocalDateTime.now().plusHours(4),3));
-//
-//        SubTask added2subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 1,
-//                LocalDateTime.now().plusHours(5), 3));
-//
-//        SubTask added3subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 1,
-//                LocalDateTime.now().plusHours(6), 3));
-//
-//        Epic added2Epic = newBackedTasksManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика", 1,
-//                LocalDateTime.now().plusDays(1)));
-//
-//        System.out.println("\nПечать всех задач, подзадач, эпиков: ");
-//        System.out.println(newBackedTasksManager.getListTasks());
-//        System.out.println(newBackedTasksManager.getListSubTasks());
-//        System.out.println(newBackedTasksManager.getListEpics());
-//
-//        newBackedTasksManager.getSubTaskById(added3subTask.getId());
-//        newBackedTasksManager.getSubTaskById(added2subTask.getId());
-//        newBackedTasksManager.getTaskById(added1Task.getId());
-//        newBackedTasksManager.getEpicsById(added2Epic.getId());
-//        newBackedTasksManager.getTaskById(added2Task.getId());
-//        newBackedTasksManager.getEpicsById(added1Epic.getId());
-//        newBackedTasksManager.getSubTaskById(added1subTask.getId());
+        File fileSave = new File("./java-kanban/src/resources/saveTaskManager.csv");
+        //String fileSave = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
+        //String fileSave = Paths.get("./java-kanban/src/resources/saveTaskManager.csv").getFileName().toString();
+
+        FileBackedTaskManager newBackedTasksManager = loadFromFile(fileSave);
+
+        Task added1Task = newBackedTasksManager.addTask(new Task("Задача 1","Сдать спринт6", 1,
+                LocalDateTime.now().plusHours(1)));
+
+        Task added2Task = newBackedTasksManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7", 1,
+                LocalDateTime.now().plusHours(2)));
+
+        Epic added1Epic = newBackedTasksManager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 1,
+                LocalDateTime.now().plusHours(3)));
+
+        SubTask added1subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 1,
+                LocalDateTime.now().plusHours(4),3));
+
+        SubTask added2subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 1,
+                LocalDateTime.now().plusHours(5), 3));
+
+        SubTask added3subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 1,
+                LocalDateTime.now().plusHours(6), 3));
+
+        Epic added2Epic = newBackedTasksManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика", 1,
+                LocalDateTime.now().plusDays(1)));
+
+        System.out.println("\nПечать всех задач, подзадач, эпиков: ");
+        System.out.println(newBackedTasksManager.getListTasks());
+        System.out.println(newBackedTasksManager.getListSubTasks());
+        System.out.println(newBackedTasksManager.getListEpics());
+
+        newBackedTasksManager.getSubTaskById(added3subTask.getId());
+        newBackedTasksManager.getSubTaskById(added2subTask.getId());
+        newBackedTasksManager.getTaskById(added1Task.getId());
+        newBackedTasksManager.getEpicsById(added2Epic.getId());
+        newBackedTasksManager.getTaskById(added2Task.getId());
+        newBackedTasksManager.getEpicsById(added1Epic.getId());
+        newBackedTasksManager.getSubTaskById(added1subTask.getId());
 
         //newBackedTasksManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
         //newBackedTasksManager.deleteEpic(7);//в истории не должно быть 2 эпика
