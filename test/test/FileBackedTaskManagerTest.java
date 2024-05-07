@@ -1,5 +1,6 @@
 package test;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,8 +27,18 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
         this.manager = new FileBackedTaskManager(fileSavedHistory);
-        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        //fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
 
+    }
+
+    @AfterEach
+    public void afterEach() {
+        try {
+            File file = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
+            Files.delete(file.toPath());
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
 //    @Test
