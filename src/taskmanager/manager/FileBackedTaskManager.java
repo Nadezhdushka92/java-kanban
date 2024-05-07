@@ -7,6 +7,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,19 +28,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         FileBackedTaskManager newBackedTasksManager = loadFromFile(fileSave);
 
-        Task added1Task = newBackedTasksManager.addTask(new Task("Задача 1","Сдать спринт6"));
+        Task added1Task = newBackedTasksManager.addTask(new Task("Задача 1","Сдать спринт6", 1,
+                LocalDateTime.now().plusHours(1)));
 
-        Task added2Task = newBackedTasksManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7"));
+        Task added2Task = newBackedTasksManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7", 1,
+                LocalDateTime.now().plusHours(2)));
 
-        Epic added1Epic = newBackedTasksManager.addEpic(new Epic("Эпик 1","Пройти обучение Java"));
+        Epic added1Epic = newBackedTasksManager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 1,
+                LocalDateTime.now().plusHours(3)));
 
-        SubTask added1subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 3));
+        SubTask added1subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 1,
+                LocalDateTime.now().plusHours(4),3));
 
-        SubTask added2subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 3));
+        SubTask added2subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 1,
+                LocalDateTime.now().plusHours(5), 3));
 
-        SubTask added3subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 3));
+        SubTask added3subTask = newBackedTasksManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 1,
+                LocalDateTime.now().plusHours(6), 3));
 
-        Epic added2Epic = newBackedTasksManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика"));
+        Epic added2Epic = newBackedTasksManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика", 1,
+                LocalDateTime.now().plusDays(1)));
 
         System.out.println("\nПечать всех задач, подзадач, эпиков: ");
         System.out.println(newBackedTasksManager.getListTasks());
@@ -53,12 +62,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         newBackedTasksManager.getEpicsById(added1Epic.getId());
         newBackedTasksManager.getSubTaskById(added1subTask.getId());
 
-        newBackedTasksManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
-        newBackedTasksManager.deleteEpic(7);//в истории не должно быть 2 эпика
+        //newBackedTasksManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
+        //newBackedTasksManager.deleteEpic(7);//в истории не должно быть 2 эпика
     }
 
     public void save() {
-        final String taskFields = "id,type,name,status,description,epic";
+        final String taskFields = "id,type,name,status,description,duration,localtime,epic";
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileSave,  StandardCharsets.UTF_8));
             //Writer writer = new FileWriter(fileSave);
@@ -139,23 +148,29 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         int mID = 0;
         String[] word = s.split(",");
+        boolean isTime = Long.parseLong(word[5]) > 0;
+        LocalDateTime startTime = LocalDateTime.parse(word[6]);
+        long duration = Long.parseLong(word[5]);
         try {
             switch (word[1]) {
                 case "TASK":
                     int idT = Integer.parseInt(word[0]);
-                    Task task = new Task(word[2], word[4], Status.valueOf(word[3]));
+                    Task task = new Task(word[2], word[4], Status.valueOf(word[3]),Long.parseLong(word[5]), startTime);
                     //task.setId(Integer.parseInt(word[0]));
                     //addTask(task);
                     if (idT > mID) {
                         mID = idT;
                     }
                     tasks.put(mID, task);//addTask(task);
+                    if (isTime) {
+                        task.createTime(duration, startTime);
+                    }
                     //task.setStatus(Status.valueOf(word[3]));
                     //updateTask(task);
                     return task;
             case "EPIC":
                 int idE = Integer.parseInt(word[0]);
-                Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]));
+                Epic epic = new Epic(word[2], word[4], Status.valueOf(word[3]), Long.parseLong(word[5]), startTime);
                 //epic.setId(Integer.parseInt(word[0]));
                 //addEpic(epic);
                 if (idE > mID) {
@@ -167,14 +182,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             return epic;
             case "SUBTASK":
                 int idS = Integer.parseInt(word[0]);
-                SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), Integer.parseInt(word[5]));
+                SubTask subTask = new SubTask(word[2], word[4], Status.valueOf(word[3]), Long.parseLong(word[5]),startTime, Integer.parseInt(word[7]));
                 //subTask.setId(Integer.parseInt(word[0]));
                 //addSubTask(subTask);
                 if (idS > mID) {
                     mID = idS;
                 }
                 subTasks.put(mID, subTask);
-
+                if (isTime) {
+                    subTask.createTime(duration, startTime);
+                }
                 //взятие ID эпика:
                 int tmpIdEpic = subTask.getIdEpic();
                 Epic epicOfSubTask = epics.get(tmpIdEpic);

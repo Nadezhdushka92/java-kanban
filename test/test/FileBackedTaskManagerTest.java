@@ -14,6 +14,7 @@ import taskmanager.tasks.TaskType;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,38 +32,42 @@ public class FileBackedTaskManagerTest {
     @Test
     public void equalsClassTaskIdAndFile() {
         //Prepare
-        Task expectedTask = new Task("Задача 1", "После спринта7 сдать спринт8");
+        Task expectedTask = new Task("Задача 1", "После спринта8 сдать спринт9", 10,
+                LocalDateTime.of(2024, 5, 6, 10, 00));
         fileBackedTaskManager.addTask(expectedTask);
         //Do
         int idTask = fileBackedTaskManager.getTaskById(expectedTask.getId()).getId();
-        System.out.println(idTask);
+        System.out.println("idTask = " + idTask);
         //Check
-        Assertions.assertEquals(expectedTask.getId(),idTask);
+        Assertions.assertEquals(expectedTask.getId(),idTask, "Задачи не равны");
     }
 
     @Test
     public void equalsClassEpicIdAndFile() {
         //Prepare
-        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java");
+        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 30,
+                LocalDateTime.of(2024, 5, 6, 10, 30));
         fileBackedTaskManager.addEpic(expectedEpic);
         //Do
         int idEpic = fileBackedTaskManager.getEpicsById(expectedEpic.getId()).getId();
-        System.out.println(idEpic);
+        System.out.println("idEpic = " + idEpic);
         //Check
-        assertEquals(expectedEpic.getId(), idEpic);
+        assertEquals(expectedEpic.getId(), idEpic, "Эпики не равны");
     }
 
     @Test
     public void equalsClassSubTaskIdAndFile() {
         //Prepare
-        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java");
-        SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 1);
+        Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 60,
+                LocalDateTime.of(2024, 5, 6, 11, 30));
+        SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 61,
+                LocalDateTime.of(2024, 5, 6, 11, 30),1);
         fileBackedTaskManager.addEpic(expectedEpic);
         fileBackedTaskManager.addSubTask(expectedSubTask);
         //Do
         int idSubTask = fileBackedTaskManager.getSubTaskById(expectedSubTask.getId()).getId();
-        System.out.println(idSubTask);
+        System.out.println("idSubTask = " + idSubTask);
         //Check
-        assertEquals(expectedSubTask.getId(), idSubTask);
+        assertEquals(expectedSubTask.getId(), idSubTask, "Подзадачи не равны");
     }
 }

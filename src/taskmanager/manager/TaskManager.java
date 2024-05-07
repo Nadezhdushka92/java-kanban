@@ -82,4 +82,7 @@ public interface TaskManager extends HistoryManager {
 
     //Хранение истории
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
 }

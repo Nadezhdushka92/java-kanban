@@ -1,6 +1,10 @@
 package taskmanager.tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static java.time.Duration.*;
 
 public class SubTask extends Task {
     private int idEpic;
@@ -11,13 +15,19 @@ public class SubTask extends Task {
         this.type = TaskType.SUBTASK;
     }
 
-    public SubTask(String name, String description, Status status, int idEpic) {
-        super(name, description, status);
+    public SubTask(String name, String description, long duration, LocalDateTime startTime, int idEpic) {
+        super(name, description, duration, startTime);
+        this.idEpic = idEpic;
+        this.type = TaskType.SUBTASK;
+    }
+
+    public SubTask(String name, String description, Status status, long duration, LocalDateTime time, int idEpic) {
+        super(name, description, status, duration, time);
         this.idEpic = idEpic;
     }
 
-    public SubTask(int id, String name, String description, Status status, int idEpic) {
-        super(id, name, description, status);
+    public SubTask(int id, String name, String description, Status status, long duration, LocalDateTime startTime, int idEpic) {
+        super(id, name, description, status, duration, startTime);
         this.idEpic = idEpic;
     }
 
