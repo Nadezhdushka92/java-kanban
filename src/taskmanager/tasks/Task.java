@@ -1,6 +1,5 @@
 package taskmanager.tasks;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -31,7 +30,6 @@ public class Task {
     }
 
     public Task(String name, String description, Status status, long duration, LocalDateTime startTime) {
-        //this.id = getId();
         this.name = name;
         this.description = description;
         this.status = status;
@@ -39,6 +37,7 @@ public class Task {
         this.startTime = startTime;
         setType(TaskType.TASK);
     }
+
     public Task(int id, String name, String description, Status status, long duration, LocalDateTime startTime) {
         this.id = id;
         this.name = name;
@@ -48,11 +47,13 @@ public class Task {
         this.startTime = startTime;
         type = getType();
     }
+
     public Task() {
 
     }
+
     @Override
-    public boolean equals ( Object o ) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
@@ -60,7 +61,7 @@ public class Task {
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(type, id, name, description, status, duration, startTime);
     }
 
@@ -71,12 +72,14 @@ public class Task {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
     public LocalDateTime getEndTime() {
         if (startTime != null) {
             return startTime.plusMinutes(duration);
         }
         return null;
     }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -84,6 +87,7 @@ public class Task {
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
+
     public String getName() {
         return name;
     }
