@@ -17,19 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     private FileBackedTaskManager fileBackedTaskManager;
+    File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
 
     @BeforeEach
     public void initTests() {
         //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
-        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
-        manager = new FileBackedTaskManager(fileSavedHistory);
-        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        this.manager = new FileBackedTaskManager(fileSavedHistory);
     }
 
     @Test
     public void equalsClassTaskIdAndFile() {
         //Prepare
+        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
         Task expectedTask = new Task("Задача 1", "После спринта8 сдать спринт9", 10,
                 LocalDateTime.of(2024, 5, 6, 10, 00));
         fileBackedTaskManager.addTask(expectedTask);
@@ -43,6 +43,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     @Test
     public void equalsClassEpicIdAndFile() {
         //Prepare
+        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
         Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 30,
                 LocalDateTime.of(2024, 5, 6, 10, 30));
         fileBackedTaskManager.addEpic(expectedEpic);
@@ -56,6 +57,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     @Test
     public void equalsClassSubTaskIdAndFile() {
         //Prepare
+        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
         Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 60,
                 LocalDateTime.of(2024, 5, 6, 11, 30));
         SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 61,
