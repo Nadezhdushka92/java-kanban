@@ -25,7 +25,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     public void initTests() {
         //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
-        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerFileTest.csv");
+        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerFile.csv");
         this.manager = new FileBackedTaskManager(fileSavedHistory);
         fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
 
