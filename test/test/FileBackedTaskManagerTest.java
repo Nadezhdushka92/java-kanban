@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     //private FileBackedTaskManager fileBackedTaskManager;
-    File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
+    private final File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
 
     @BeforeEach
     public void initTests() {

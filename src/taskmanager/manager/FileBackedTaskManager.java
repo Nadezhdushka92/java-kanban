@@ -143,7 +143,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 }
 
     private Task fromString(String s) {
-        List<Integer> idEpicSubTasks = new ArrayList<>();
 
         int mID = 0;
         String[] word = s.split(",");
