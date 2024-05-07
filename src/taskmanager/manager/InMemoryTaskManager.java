@@ -11,16 +11,16 @@ import taskmanager.tasks.Task;
 
 public class InMemoryTaskManager implements TaskManager {
     /*В мапах хранятся задачи всех типов.*/
-    protected HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
     protected final HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    protected HashMap<Integer, Epic> epics = new HashMap<>();
-    protected HistoryManager historyManager = Managers.getDefaultHistoryManager();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HistoryManager historyManager = Managers.getDefaultHistoryManager();
     protected int idCnt = 0;
     protected final Set<Task> prioritizedTasks = new TreeSet<>(new StartTimeComparator());
 
-    public InMemoryTaskManager(HistoryManager historyManager) {
-        this.historyManager = historyManager;
-    }
+    //public InMemoryTaskManager(HistoryManager historyManager) {
+      //  this.historyManager = historyManager;
+    //}
 
     public InMemoryTaskManager() {
     }

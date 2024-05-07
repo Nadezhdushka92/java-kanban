@@ -14,11 +14,11 @@ import java.util.Objects;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
+    private final File fileSave;
+
     public FileBackedTaskManager(File fileSave) {
         this.fileSave = fileSave;
     }
-
-    protected final File fileSave;
 
     public static void main(String[] args) {
         File fileSave = new File("./java-kanban/src/resources/saveTaskManager.csv");

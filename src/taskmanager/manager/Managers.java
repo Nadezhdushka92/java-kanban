@@ -1,7 +1,8 @@
 package taskmanager.manager;
 
+
 public class Managers { //static?
-    protected Managers() {
+    private Managers() {
 
     }
 
@@ -12,4 +13,5 @@ public class Managers { //static?
     public static HistoryManager getDefaultHistoryManager() {
         return new InMemoryHistoryManager();
     }
+
 }
