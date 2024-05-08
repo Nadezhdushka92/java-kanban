@@ -13,7 +13,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-
+    private static final String ID = "ID";
+    private static final String TYPE = "TYPE";
+    private static final String NAME = "NAME";
+    private static final String STATUS = "STATUS";
+    private static final String DESCRIPTION = "DESCRIPTION";
+    private static final String DURATION = "DURATION";
+    private static final String LOCALTIME = "LOCALTIME";
+    private static final String EPIC = "EPIC";
     private final File fileSave;
 
     public FileBackedTaskManager(File fileSave) {
@@ -66,7 +73,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        final String taskFields = "id,type,name,status,description,duration,localtime,epic";
+        String taskFields = ID + "," + TYPE + "," + NAME + "," + STATUS + "," + DESCRIPTION + "," + DURATION + "," + LOCALTIME + "," + EPIC;
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileSave,  StandardCharsets.UTF_8));
             //Writer writer = new FileWriter(fileSave);
