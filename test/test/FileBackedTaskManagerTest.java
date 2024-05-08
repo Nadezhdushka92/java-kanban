@@ -18,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>  {
     protected FileBackedTaskManager fileBackedTaskManager;
+    File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
 
     @BeforeEach
     public void createInMemoryTasksManagerTest() {
         //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
-        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
         this.manager = new FileBackedTaskManager(fileSavedHistory);
         //manager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
     }
