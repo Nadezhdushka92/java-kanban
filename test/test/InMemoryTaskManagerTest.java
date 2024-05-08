@@ -10,8 +10,9 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
         createTaskManager();
     }
     @Override
-    public void createTaskManager() {
+    public InMemoryTaskManager createTaskManager() {
         manager = new InMemoryTaskManager();
+        return manager;
     }
 
 

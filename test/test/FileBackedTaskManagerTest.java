@@ -25,8 +25,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     }
 
     @Override
-    public void createTaskManager() {
+    public FileBackedTaskManager createTaskManager() {
         manager = new FileBackedTaskManager(fileSavedHistory);
+        return manager;
     }
 
 //    @AfterEach
