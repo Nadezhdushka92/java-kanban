@@ -1,11 +1,8 @@
 package test;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskmanager.manager.FileBackedTaskManager;
-import taskmanager.manager.InMemoryTaskManager;
 import taskmanager.tasks.Epic;
 import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
@@ -19,15 +16,10 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     protected FileBackedTaskManager fileBackedTaskManager;
     File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
 
-    @BeforeEach
-    public void init() {
-        createTaskManager();
-    }
-
     @Override
-    public FileBackedTaskManager createTaskManager() {
+    FileBackedTaskManager createTaskManager () {
         manager = new FileBackedTaskManager(fileSavedHistory);
-        return manager;
+        return null;
     }
 
 //    @AfterEach
