@@ -16,11 +16,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
-    //private TaskManager inMemoryTaskManager;
 
     @BeforeEach
     public void createInMemoryTasksManagerTest() {
-        //inMemoryTaskManager = Managers.getDefaultTaskManager();
         this.manager = new InMemoryTaskManager();
     }
 
