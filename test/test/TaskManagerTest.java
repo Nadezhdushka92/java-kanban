@@ -1,5 +1,6 @@
 package test;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskmanager.manager.TaskManager;
 import taskmanager.tasks.Epic;
@@ -16,6 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract class TaskManagerTest <T extends TaskManager> {
 
     protected T manager;
+
+    @BeforeEach
+    public void init() {
+        createTaskManager();
+    }
+
+    protected abstract void createTaskManager();
 
     //1
     @Test
