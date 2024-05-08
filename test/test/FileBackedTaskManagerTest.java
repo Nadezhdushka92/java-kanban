@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import taskmanager.manager.FileBackedTaskManager;
-import taskmanager.manager.InMemoryTaskManager;
-import taskmanager.manager.TaskManager;
 import taskmanager.tasks.Epic;
 import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
@@ -25,9 +23,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     public void initTests() {
         //String fileSavedHistory = "C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\src\\resources\\saveTaskManager.csv";
         //String fileSavedHistory = Paths.get("src/resources/saveTaskManager.csv").getFileName().toString();
-        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerFile.csv");
-        this.manager = new FileBackedTaskManager(new File("./java-kanban/test/resources/saveTaskManagerFile.csv"));
-        fileBackedTaskManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
+        this.manager = new FileBackedTaskManager(fileSavedHistory);
+        manager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
     }
 
     @AfterEach
@@ -45,9 +43,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         //Prepare
         Task expectedTask = new Task("Задача 1", "После спринта8 сдать спринт9", 10,
                 LocalDateTime.of(2024, 5, 6, 10, 00));
-        fileBackedTaskManager.addTask(expectedTask);
+        manager.addTask(expectedTask);
         //Do
-        int idTask = fileBackedTaskManager.getTaskById(expectedTask.getId()).getId();
+        int idTask = manager.getTaskById(expectedTask.getId()).getId();
         //System.out.println("idTask = " + idTask);
         //Check
         Assertions.assertEquals(expectedTask.getId(),idTask, "Задачи не равны");
@@ -58,9 +56,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         //Prepare
         Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 30,
                 LocalDateTime.of(2024, 5, 6, 10, 30));
-        fileBackedTaskManager.addEpic(expectedEpic);
+        manager.addEpic(expectedEpic);
         //Do
-        int idEpic = fileBackedTaskManager.getEpicsById(expectedEpic.getId()).getId();
+        int idEpic = manager.getEpicsById(expectedEpic.getId()).getId();
         //System.out.println("idEpic = " + idEpic);
         //Check
         assertEquals(expectedEpic.getId(), idEpic, "Эпики не равны");
@@ -73,10 +71,10 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
                 LocalDateTime.of(2024, 5, 6, 11, 30));
         SubTask expectedSubTask = new SubTask("Подзадача 1", "Пройти практику Java", 61,
                 LocalDateTime.of(2024, 5, 6, 11, 30),1);
-        fileBackedTaskManager.addEpic(expectedEpic);
-        fileBackedTaskManager.addSubTask(expectedSubTask);
+        manager.addEpic(expectedEpic);
+        manager.addSubTask(expectedSubTask);
         //Do
-        int idSubTask = fileBackedTaskManager.getSubTaskById(expectedSubTask.getId()).getId();
+        int idSubTask = manager.getSubTaskById(expectedSubTask.getId()).getId();
         //System.out.println("idSubTask = " + idSubTask);
         //Check
         assertEquals(expectedSubTask.getId(), idSubTask, "Подзадачи не равны");
