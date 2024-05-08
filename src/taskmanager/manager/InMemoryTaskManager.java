@@ -378,7 +378,7 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(prioritizedTasks);
     }
 
-    public Stream<Boolean> taskValidation( Task task) {
+    public Stream<Boolean> taskValidation(Task task) {
         return getPrioritizedTasks().stream()
                 .filter(t -> t.getStartTime() != null)
                 .filter(t -> t.getStartTime() != task.getStartTime())
