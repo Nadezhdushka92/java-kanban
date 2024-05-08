@@ -20,7 +20,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
     @BeforeEach
     public void createInMemoryTasksManagerTest() {
-        this.manager = new FileBackedTaskManager(fileSavedHistory);
+        manager = new FileBackedTaskManager(fileSavedHistory);
     }
 
 //    @AfterEach

@@ -19,7 +19,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
     @BeforeEach
     public void createInMemoryTasksManagerTest() {
-        this.manager = new InMemoryTaskManager();
+        manager = new InMemoryTaskManager();
     }
 
 
