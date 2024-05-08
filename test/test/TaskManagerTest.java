@@ -23,7 +23,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
         createTaskManager();
     }
 
-    abstract T createTaskManager();
+    protected abstract T createTaskManager();
 
     //1
     @Test
