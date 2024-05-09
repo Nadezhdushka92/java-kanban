@@ -27,7 +27,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
     //1
     @Test
-    void createTask_shouldGenerateIdAndSaveTaskTest() throws IOException {
+    public void createTask_shouldGenerateIdAndSaveTaskTest() throws IOException {
         //Prepare
         //Task expected = new Task(1, "Задача 1", "Сдать спринт4", Status.NEW, 0, LocalDateTime.now());
         Task task1 = new Task("Задача 1", "Сдать спринт4", Status.NEW, 0, null);
@@ -86,7 +86,7 @@ abstract class TaskManagerTest <T extends TaskManager> {
 
     //2
     @Test
-    void createSubTask_shouldGenerateIdAndSaveSubTaskTest() throws IOException {
+    public void createSubTask_shouldGenerateIdAndSaveSubTaskTest() throws IOException {
         //Prepare
         Epic epic2 = new Epic("Эпик 2", "Трудойстройтсво на Java разработчика", Status.NEW, 0, LocalDateTime.now());
         Epic added2Epic = manager.addEpic(epic2);

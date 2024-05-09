@@ -13,13 +13,11 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>  {
-    protected FileBackedTaskManager fileBackedTaskManager;
-    File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
+    private final File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
 
     @Override
-    public FileBackedTaskManager createTaskManager () {
-        manager = new FileBackedTaskManager(fileSavedHistory);
-        return null;
+    public FileBackedTaskManager createTaskManager() {
+        return manager = new FileBackedTaskManager(fileSavedHistory);
     }
 
 //    @AfterEach

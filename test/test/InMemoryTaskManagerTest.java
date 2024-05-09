@@ -6,8 +6,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
     @Override
     public InMemoryTaskManager createTaskManager () {
-        manager = new InMemoryTaskManager();
-        return null;
+        return manager = new InMemoryTaskManager();
     }
 
 
