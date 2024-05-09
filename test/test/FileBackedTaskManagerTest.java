@@ -11,9 +11,9 @@ import java.io.File;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+//src/java-kanban/test/resources/saveTaskManagerTest.csv
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>  {
-    private final File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");
+    private final File fileSavedHistory = new File("C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\test\\resources\\saveTaskManagerTest.csv");
 
     @Override
     public FileBackedTaskManager createTaskManager() {
