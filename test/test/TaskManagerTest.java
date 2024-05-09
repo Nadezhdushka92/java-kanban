@@ -17,13 +17,15 @@ import static org.junit.jupiter.api.Assertions.*;
 abstract class TaskManagerTest <T extends TaskManager> {
 
     protected T manager;
-
+    protected T fileManager;
     @BeforeEach
     public void init() {
         createTaskManager();
+        createFileTaskManager();
     }
 
     protected abstract T createTaskManager();
+    protected abstract T createFileTaskManager();
 
     //1
     @Test
