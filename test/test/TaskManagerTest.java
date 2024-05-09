@@ -21,11 +21,11 @@ abstract class TaskManagerTest <T extends TaskManager> {
     @BeforeEach
     public void init() {
         createTaskManager();
-        createFileTaskManager();
+        createLoadFileTaskManager();
     }
 
     protected abstract T createTaskManager();
-    protected abstract T createFileTaskManager();
+    protected abstract T createLoadFileTaskManager();
 
     //1
     @Test

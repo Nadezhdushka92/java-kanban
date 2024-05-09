@@ -29,20 +29,20 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     }
 
     @Override
-    public FileBackedTaskManager createFileTaskManager() {
+    public FileBackedTaskManager createLoadFileTaskManager() {
         return fileManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
 
     }
 
-    @AfterEach
-    public void afterEach() {
-        try {
-            File file = new File(".\\java-kanban\\test\\resources\\saveTaskManagerTest.csv");
-            Files.delete(file.toPath());
-        } catch (IOException exception) {
-            System.out.println(exception.getMessage());
-        }
-    }
+//    @AfterEach
+//    public void afterEach() {
+//        try {
+//            File file = new File(".\\java-kanban\\test\\resources\\saveTaskManagerTest.csv");
+//            Files.delete(file.toPath());
+//        } catch (IOException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//    }
 
     @Test
     public void equalsClassTaskIdAndFileTest() {
