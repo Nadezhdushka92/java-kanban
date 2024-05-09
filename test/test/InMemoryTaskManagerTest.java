@@ -6,7 +6,7 @@ import taskmanager.manager.InMemoryTaskManager;
 import java.io.File;
 
 public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
-    File fileSavedHistory = new File("./java-kanban/test/resources/saveTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
+    File fileSavedHistory = new File(".\\java-kanban\\test\\resources\\saveTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
 
     @Override
     public InMemoryTaskManager createTaskManager () {
