@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>  {
-    File fileSavedHistory = new File("C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\test\\resources\\saveFileTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
+    File fileSavedHistory = new File("./java-kanban/test/resources/saveFileTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
 
     @Override
     public FileBackedTaskManager createTaskManager() {
@@ -114,14 +114,14 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
     }
 
-    @Test
-    public void loadFromFileTest() {
-        Task addedTask1 = new Task("2 модуль", "Завершить обучение без замечаний", Status.NEW, 0, LocalDateTime.now());
-        manager.addTask(addedTask1);
-
-        manager.getTaskById(addedTask1.getId());
+//    @Test
+//    public void loadFromFileTest() {
+//        Task addedTask1 = new Task("2 модуль", "Завершить обучение без замечаний", Status.NEW, 0, LocalDateTime.now());
+//        manager.addTask(addedTask1);
+//
+//        manager.getTaskById(addedTask1.getId());
 //        fileManager = manager;
 //        Task uploadedTask1 = fileManager.getTaskById(addedTask1.getId());
 //        Assertions.assertEquals(addedTask1.toString(), uploadedTask1.toString(), "Задачи не совпадают");
-    }
+//    }
 }
