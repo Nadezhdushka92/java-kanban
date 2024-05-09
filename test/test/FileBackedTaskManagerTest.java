@@ -20,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>  {
-    File fileSavedHistory = new File("C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\test\\resources\\saveFileTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
+    final File fileSavedHistory = new File("C:\\Users\\12345\\IdeaProjects\\java-kanban[Sprint7]\\java-kanban\\test\\resources\\saveFileTaskManagerTest.csv");//src/java-kanban/test/resources/saveTaskManagerTest.csv
 
     @Override
     public FileBackedTaskManager createTaskManager() {
@@ -30,7 +30,6 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
     @Override
     public FileBackedTaskManager createLoadFileTaskManager() {
         return fileManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
-
     }
 
 //    @AfterEach
