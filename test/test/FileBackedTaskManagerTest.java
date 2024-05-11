@@ -27,11 +27,6 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         return manager = new FileBackedTaskManager(fileSavedHistory);
     }
 
-    @Override
-    public FileBackedTaskManager createLoadFileTaskManager() {
-        return null;//fileManager = FileBackedTaskManager.loadFromFile(fileSavedHistory);
-    }
-
 //    @AfterEach
 //    public void afterEach() {
 //        try {
@@ -61,6 +56,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
         Epic expectedEpic = new Epic("Эпик 1", "Пройти обучение Java", 30,
                 LocalDateTime.of(2024, 5, 6, 10, 30));
         manager.addEpic(expectedEpic);
+
         //Do
         int idEpic = manager.getEpicsById(expectedEpic.getId()).getId();
         //System.out.println("idEpic = " + idEpic);
@@ -113,14 +109,10 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
     }
 
-//    @Test
-//    public void loadFromFileTest() {
-//        Task addedTask1 = new Task("2 модуль", "Завершить обучение без замечаний", Status.NEW, 0, LocalDateTime.now());
-//        manager.addTask(addedTask1);
-//
-//        manager.getTaskById(addedTask1.getId());
-//        fileManager = manager;
-//        Task uploadedTask1 = fileManager.getTaskById(addedTask1.getId());
-//        Assertions.assertEquals(addedTask1.toString(), uploadedTask1.toString(), "Задачи не совпадают");
-//    }
+    @Test
+    public void loadFromFileEmptyTest() {
+        final FileBackedTaskManager  newBackedTasksManagerEmpty = FileBackedTaskManager.loadFromFile(fileSavedHistory);
+        final List<Task> emptyListTasks = newBackedTasksManagerEmpty.getListTasks();
+        Assertions.assertEquals(0, emptyListTasks.size(), "Список задач не пуст");
+    }
 }

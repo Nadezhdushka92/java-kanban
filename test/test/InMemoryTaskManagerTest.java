@@ -12,10 +12,5 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
         return manager = new InMemoryTaskManager();
     }
 
-    @Override
-    protected InMemoryTaskManager createLoadFileTaskManager () {
-        return null;
-    }
-
 
 }
