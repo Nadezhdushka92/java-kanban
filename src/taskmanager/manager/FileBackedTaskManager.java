@@ -6,6 +6,7 @@ import taskmanager.tasks.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -125,7 +126,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     //Cчитываем содержимое файла
     FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
 
-    String taskString = parsingFile(file.getParentFile().toString());
+    String taskString = parsingFile(file.toPath().getFileName().toString());//file.getParentFile().toString()
     if (taskString == null) {
         return fileBackedTaskManager;
     }
@@ -222,7 +223,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         if (file == null) {
             return new ArrayList<>();
         }
-        String[] arrayHistory = Objects.requireNonNull(parsingFile(file.getParentFile().toString())).split("\n");
+        String[] arrayHistory = Objects.requireNonNull(parsingFile(file.toPath().getFileName().toString())).split("\n");
         if (arrayHistory.length < 8) {
             return new ArrayList<>();
         }
