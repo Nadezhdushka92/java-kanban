@@ -71,16 +71,18 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление задачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public void updateTask(Task updTask) {
+    public Task updateTask(Task updTask) {
         Task curTask = tasks.get(updTask.getId());
         if (curTask != null) {
             tasks.put(updTask.getId(), updTask);
             prioritizedTasks.add(updTask);
 
             System.out.println("Задача " + curTask + " отредактирована на - " + updTask);
+            return updTask;
         } else {
             System.out.println("Неизвестная задача");
         }
+        return null;
     }
 
     //f. Удаление задачи по идентификатору.*/
@@ -159,7 +161,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление подзадачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public void updateSubTask(SubTask updSubTask) {
+    public SubTask updateSubTask(SubTask updSubTask) {
         Epic epic = epics.get(updSubTask.getIdEpic());
 
         if (epic != null) {
@@ -172,10 +174,12 @@ public class InMemoryTaskManager implements TaskManager {
 
             updateTimesEpic(epic);
             updateStatusEpic(epic);
+            return updSubTask;
         } else {
             System.out.println("Неизвестная подзадача");
         }
             System.out.println("Подзадача " + updSubTask.getName() + " не обновлена");
+        return null;
     }
 
     //f. Удаление подзадач Epica по идентификатору.
@@ -246,14 +250,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление эпика. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public void updateEpic(Epic updEpic) {
+    public Epic updateEpic(Epic updEpic) {
         if (epics.containsKey(updEpic.getId())) {
             Epic curEpic = epics.get(updEpic.getId());
             epics.put(updEpic.getId(), updEpic);
             System.out.println("Эпик " + curEpic + " отредактирован на - " + updEpic);
+            return updEpic;
         } else {
             System.out.println("Неизвестный эпик");
         }
+        return null;
     }
 
     //f. Удаление эпика по идентификатору.
@@ -272,7 +278,6 @@ public class InMemoryTaskManager implements TaskManager {
 
             }
         }
-
         return deletedEpic;
     }
     //----------------EndEpics-------------//
