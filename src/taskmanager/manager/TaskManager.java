@@ -6,7 +6,7 @@ import taskmanager.tasks.Task;
 
 import java.util.List;
 
-public interface TaskManager extends HistoryManager {
+public interface TaskManager {
     //Методы для каждого из типа задач(Задача/Эпик/Подзадача):
     //----------------Tasks-------------//
     //a. Получение списка всех задач.
@@ -70,16 +70,9 @@ public interface TaskManager extends HistoryManager {
     //хранить в эпике List<Integer>, а в методах менеджера пробегаться по этому списку и для каждого id делать subTasks.get(id).
     List<SubTask> getListSubTaskByIdEpic(int idEpic);
 
-    @Override
-    default void add(Task task) {
-
-    }
-
-    @Override
-    default void remove(int id) {
-
-    }
-
     //Хранение истории
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
 }

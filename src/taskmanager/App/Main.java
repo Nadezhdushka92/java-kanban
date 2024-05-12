@@ -7,6 +7,7 @@ import taskmanager.tasks.SubTask;
 import taskmanager.tasks.Task;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class Main {
 
@@ -20,27 +21,34 @@ public class Main {
         //Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.
         System.out.println("***Создание двух задач***");
 
-        Task added1Task = inMemoryTaskManager.addTask(new Task("Задача 1","Сдать спринт6"));
+        Task added1Task = inMemoryTaskManager.addTask(new Task("Задача 1","Сдать спринт6", 1,
+                LocalDateTime.now().plusHours(1)));
         System.out.println("Добавлена задача: " + added1Task);
 
-        Task added2Task = inMemoryTaskManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7"));
+        Task added2Task = inMemoryTaskManager.addTask(new Task("Задача 2","После спринта6 сдать спринт7", 1,
+                LocalDateTime.now().plusHours(2)));
         System.out.println("Добавлена задача: " + added2Task);
 
         System.out.println("\n***Создание эпика с тремя позадачами***");
-        Epic added1Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 1","Пройти обучение Java"));
+        Epic added1Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 1,
+                LocalDateTime.now().plusHours(3)));
         System.out.println("Добавлен эпик: " + added1Epic);
 
-        SubTask added1subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 3));
+        SubTask added1subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 1,
+                LocalDateTime.now().plusHours(4),3));
         System.out.println("Добавлена подазадача: " + added1subTask);
 
-        SubTask added2subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 3));
+        SubTask added2subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 2","Пройти практику Java", 1,
+                LocalDateTime.now().plusHours(5),3));
         System.out.println("Добавлена подазадача: " + added2subTask);
 
-        SubTask added3subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 3));
+        SubTask added3subTask = inMemoryTaskManager.addSubTask(new SubTask("Подзадача 3","Успешное окончание курса Java", 1,
+                LocalDateTime.now().plusHours(6),3));
         System.out.println("Добавлена подзадача: " + added3subTask);
 
         System.out.println("\n***Создание второго эпика без подзадач***");
-        Epic added2Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика"));
+        Epic added2Epic = inMemoryTaskManager.addEpic(new Epic("Эпик 2","Трудойстройтсво на Java разработчика", 1,
+                LocalDateTime.now().plusDays(1)));
         System.out.println("Добавлен эпик: " + added2Epic);
 
         //Распечатайте списки эпиков, задач и подзадач через System.out.println(..)
@@ -63,7 +71,7 @@ public class Main {
             System.out.println(task);
         }
 
-        inMemoryTaskManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
+        //inMemoryTaskManager.deleteSubTask(6);//в истории не должно быть 3ей задачи
 
         System.out.println("************************************");
         System.out.println("\nВывод истории getHistory() после удаления 3 подзадачи:");
