@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.server.HttpTaskServer;
-import taskmanager.tasks.*;
+import taskmanager.tasks.Epic;
+import taskmanager.tasks.Status;
+import taskmanager.tasks.SubTask;
+import taskmanager.tasks.Task;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -21,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HttpTaskServerTest {
     private HttpTaskServer taskServer;

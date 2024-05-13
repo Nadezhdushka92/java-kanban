@@ -1,15 +1,14 @@
 package taskmanager.manager;
+
 import taskmanager.exception.ManagerValidateException;
 import taskmanager.tasks.Epic;
 import taskmanager.tasks.Status;
-
 import taskmanager.tasks.SubTask;
+import taskmanager.tasks.Task;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
-
-import taskmanager.tasks.Task;
 
 public class InMemoryTaskManager implements TaskManager {
     /*В мапах хранятся задачи всех типов.*/
