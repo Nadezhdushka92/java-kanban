@@ -84,7 +84,7 @@ public class SubTasksHandler implements HttpHandler {
                 exchange.close();
 
             } else {
-                writeResponse(exchange, "Подзадача пересекается с существующими",
+                writeResponse(exchange, "Подзадача пересекается с существующими задачами",
                         HttpStatus.SC_NOT_ACCEPTABLE);
             }
         } else if (Pattern.matches("^/subtasks/\\d+$", path)) {
