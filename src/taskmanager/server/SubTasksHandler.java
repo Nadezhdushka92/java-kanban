@@ -65,7 +65,7 @@ public class SubTasksHandler implements HttpHandler {
                         HttpStatus.SC_NOT_FOUND);
 
             } else {
-                writeResponse(exchange, "Некорректный id =  " + pathId,
+                writeResponse(exchange, "Некорректный id = " + pathId,
                         HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
