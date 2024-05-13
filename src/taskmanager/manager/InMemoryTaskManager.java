@@ -71,18 +71,18 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление задачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public Task updateTask(Task updTask) {
-        Task curTask = tasks.get(updTask.getId());
-        if (curTask != null) {
-            tasks.put(updTask.getId(), updTask);
-            prioritizedTasks.add(updTask);
+    public Task updateTask(Task updatedTask) {
+        Task currentTask = tasks.get(updatedTask.getId());
+        if (currentTask != null) {
+            tasks.put(updatedTask.getId(), updatedTask);
+            prioritizedTasks.add(updatedTask);
 
-            System.out.println("Задача " + curTask + " отредактирована на - " + updTask);
-            return updTask;
+            System.out.println("Задача " + currentTask + " отредактирована на - " + updatedTask);
+            return updatedTask;
         } else {
             System.out.println("Неизвестная задача");
         }
-        return null;
+        return currentTask;
     }
 
     //f. Удаление задачи по идентификатору.*/
@@ -161,25 +161,25 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление подзадачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public SubTask updateSubTask(SubTask updSubTask) {
-        Epic epic = epics.get(updSubTask.getIdEpic());
-
+    public SubTask updateSubTask(SubTask updatedSubTask) {
+        Epic epic = epics.get(updatedSubTask.getIdEpic());
+        SubTask currentSubTask = null;
         if (epic != null) {
-            SubTask curSubTask = subTasks.get(updSubTask.getId());
-            subTasks.put(updSubTask.getId(), updSubTask);
-            System.out.println("Подадача " + curSubTask + " отредактирована на - " + updSubTask);
+            currentSubTask = subTasks.get(updatedSubTask.getId());
+            subTasks.put(updatedSubTask.getId(), updatedSubTask);
+            System.out.println("Подадача " + currentSubTask + " отредактирована на - " + updatedSubTask);
 
-            subTasks.put(updSubTask.getIdEpic(), updSubTask);
-            prioritizedTasks.add(updSubTask);
+            subTasks.put(updatedSubTask.getIdEpic(), updatedSubTask);
+            prioritizedTasks.add(updatedSubTask);
 
             updateTimesEpic(epic);
             updateStatusEpic(epic);
-            return updSubTask;
+            return updatedSubTask;
         } else {
             System.out.println("Неизвестная подзадача");
         }
-            System.out.println("Подзадача " + updSubTask.getName() + " не обновлена");
-        return null;
+            System.out.println("Подзадача " + updatedSubTask.getName() + " не обновлена");
+        return currentSubTask;
     }
 
     //f. Удаление подзадач Epica по идентификатору.
@@ -250,16 +250,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     //e. Обновление эпика. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
-    public Epic updateEpic(Epic updEpic) {
-        if (epics.containsKey(updEpic.getId())) {
-            Epic curEpic = epics.get(updEpic.getId());
-            epics.put(updEpic.getId(), updEpic);
-            System.out.println("Эпик " + curEpic + " отредактирован на - " + updEpic);
-            return updEpic;
+    public Epic updateEpic(Epic updatedEpic) {
+        Epic currentEpic = null;
+        if (epics.containsKey(updatedEpic.getId())) {
+            currentEpic = epics.get(updatedEpic.getId());
+            epics.put(updatedEpic.getId(), updatedEpic);
+            System.out.println("Эпик " + currentEpic + " отредактирован на - " + updatedEpic);
+            return updatedEpic;
         } else {
             System.out.println("Неизвестный эпик");
         }
-        return null;
+        return currentEpic;
     }
 
     //f. Удаление эпика по идентификатору.

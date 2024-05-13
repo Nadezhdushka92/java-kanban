@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.httpclient.HttpStatus;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.tasks.Task;
@@ -60,11 +61,11 @@ public class TasksHandler implements HttpHandler {
                     sendText(exchange, response);
                 }
                 writeResponse(exchange, "Задачи с id = " + pathId + " нет.",
-                        HttpStatusCode.NOT_FOUND.getCode());
+                        HttpStatus.SC_NOT_FOUND);
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId,
-                        HttpStatusCode.NOT_FOUND.getCode());
+                        HttpStatus.SC_NOT_FOUND);
             }
         }
     }
@@ -79,12 +80,12 @@ public class TasksHandler implements HttpHandler {
             Task addedTask = manager.addTask(reqToAddTask);
             if (addedTask != null) {
                 System.out.println("Задача создана");
-                exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                 exchange.close();
 
             } else {
                 writeResponse(exchange, "Задача пересекается с существующими",
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         } else if (Pattern.matches("^/tasks/\\d+$", path)) {
             String pathId = path.replaceFirst("/tasks/", "");
@@ -95,17 +96,17 @@ public class TasksHandler implements HttpHandler {
                 Task updTask = manager.updateTask(reqToUpdTask);
                 if (updTask != null) {
                     System.out.println("Задача обновлена");
-                    exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                    exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                     exchange.close();
 
                 } else {
                     writeResponse(exchange, "Задача пересекается с существующими",
-                            HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                            HttpStatus.SC_NOT_ACCEPTABLE);
                 }
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId,
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
     }
@@ -116,7 +117,7 @@ public class TasksHandler implements HttpHandler {
         if (Pattern.matches("^/tasks$", path)) {
             manager.delListTask();
             System.out.println("Задачи удалены");
-            exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+            exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
             exchange.close();
 
         } else if (Pattern.matches("^/tasks/\\d+$", path)) {
@@ -125,12 +126,12 @@ public class TasksHandler implements HttpHandler {
             if (id > 0) {
                 manager.deleteTask(id);
                 System.out.println("Задача удалена");
-                exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                 exchange.close();
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId,
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
     }
@@ -138,7 +139,7 @@ public class TasksHandler implements HttpHandler {
     private void sendText(HttpExchange exchange, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        exchange.sendResponseHeaders(HttpStatusCode.OK.getCode(), resp.length);
+        exchange.sendResponseHeaders(HttpStatus.SC_OK, resp.length);
         exchange.getResponseBody().write(resp);
     }
 

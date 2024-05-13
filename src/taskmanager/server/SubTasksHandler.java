@@ -3,6 +3,7 @@ package taskmanager.server;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.httpclient.HttpStatus;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.tasks.SubTask;
@@ -61,11 +62,11 @@ public class SubTasksHandler implements HttpHandler {
                     sendText(exchange, response);
                 }
                 writeResponse(exchange, "Подзадача с id = " + pathId + " не найдена.",
-                        HttpStatusCode.NOT_FOUND.getCode());
+                        HttpStatus.SC_NOT_FOUND);
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId,
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
     }
@@ -79,12 +80,12 @@ public class SubTasksHandler implements HttpHandler {
             SubTask addedSubTask = manager.addSubTask(reqToAddSubTask);
             if (addedSubTask != null) {
                 System.out.println("Подзадача создана");
-                exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                 exchange.close();
 
             } else {
                 writeResponse(exchange, "Подзадача пересекается с существующими",
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         } else if (Pattern.matches("^/subtasks/\\d+$", path)) {
             String pathId = path.replaceFirst("/subtasks/", "");
@@ -95,17 +96,17 @@ public class SubTasksHandler implements HttpHandler {
                 SubTask addedSubTask = manager.updateSubTask(subTaskRequest);
                 if (addedSubTask != null) {
                     System.out.println("Подзадача обновлена");
-                    exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                    exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                     exchange.close();
 
                 } else {
                     writeResponse(exchange, "Подзадача пересекается с существующими",
-                            HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                            HttpStatus.SC_NOT_ACCEPTABLE);
                 }
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId,
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
     }
@@ -116,7 +117,7 @@ public class SubTasksHandler implements HttpHandler {
         if (Pattern.matches("^/subtasks$", path)) {
             manager.delListSubTask();
             System.out.println("Все подзадачи удалены");
-            exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+            exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
             exchange.close();
         } else if (Pattern.matches("^/subtasks/\\d+$", path)) {
             String pathId = path.replaceFirst("/subtasks/", "");
@@ -124,12 +125,12 @@ public class SubTasksHandler implements HttpHandler {
             if (id > 0) {
                 manager.deleteSubTask(id);
                 System.out.println("Подзадача удалена");
-                exchange.sendResponseHeaders(HttpStatusCode.CREATED.getCode(), 0);
+                exchange.sendResponseHeaders(HttpStatus.SC_CREATED, 0);
                 exchange.close();
 
             } else {
                 writeResponse(exchange, "Некорректный id =  " + pathId + pathId,
-                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
+                        HttpStatus.SC_NOT_ACCEPTABLE);
             }
         }
     }
@@ -137,7 +138,7 @@ public class SubTasksHandler implements HttpHandler {
     private void sendText(HttpExchange exchange, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-        exchange.sendResponseHeaders(HttpStatusCode.OK.getCode(), resp.length);
+        exchange.sendResponseHeaders(HttpStatus.SC_OK, resp.length);
         exchange.getResponseBody().write(resp);
     }
 

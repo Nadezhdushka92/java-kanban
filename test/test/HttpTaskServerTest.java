@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.server.HttpTaskServer;
-import taskmanager.tasks.Epic;
-import taskmanager.tasks.SubTask;
-import taskmanager.tasks.Task;
+import taskmanager.tasks.*;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -23,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HttpTaskServerTest {
     private HttpTaskServer taskServer;
@@ -43,7 +42,7 @@ public class HttpTaskServerTest {
                 10, LocalDateTime.of(2024, 5, 12, 8, 39));
         subTaskTest = new SubTask("Изучить и сдать 3 модуль",
                 "Изучить новые темы",
-                600, LocalDateTime.of(2024, 5, 12, 17, 1),epicTest.getId());
+                600, LocalDateTime.of(2024, 5, 12, 17, 1),1);
         epicTest.delAllSubTasks();
         taskManager = Managers.getDefaultTaskManager();
         taskServer = new HttpTaskServer(taskManager);
@@ -121,25 +120,30 @@ public class HttpTaskServerTest {
         Assertions.assertEquals(201, response.statusCode());
     }
 
-//    //4
-//    @Test
-//    void postUpdateTaskOnServerTest() throws IOException, InterruptedException {
-//        HttpClient client = HttpClient.newHttpClient();
-//        Task taskPost = new Task("Модуль 2",
-//                "Завершить модуль 2",
-//                300, LocalDateTime.now());
-//
-//        URI uri = URI.create(URI_CONST + "/tasks/1");
-//        String jsonTask = gson.toJson(taskPost);
-//        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(jsonTask, StandardCharsets.UTF_8);
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(uri)
-//                .POST(bodyPublisher)
-//                .build();
-//
-//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        Assertions.assertEquals(201, response.statusCode());
-//    }
+    //4
+    @Test
+    void postUpdateTaskOnServerTest() throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        taskManager.addTask(taskTest);
+
+        Task taskPost = new Task(taskTest.getId(),"Модуль 2",
+                "Завершить модуль 2",Status.NEW,
+                300, LocalDateTime.now());
+
+        taskManager.updateTask(taskPost);
+
+        URI uri = URI.create(URI_CONST + "/tasks/1");
+        String jsonTask = gson.toJson(taskPost);
+        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(jsonTask, StandardCharsets.UTF_8);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .POST(bodyPublisher)
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals(201, response.statusCode());
+    }
 
     //5
     @Test
@@ -300,8 +304,8 @@ public class HttpTaskServerTest {
 //
 //        Type subTaskType = new TypeToken<ArrayList<SubTask>>() {
 //        }.getType();
-//        List<SubTask> subTaskDto = gson.fromJson(response.body(), subTaskType);
-//        List<SubTask> actual = subTaskDto.stream()
+//        List<SubTask> subTask = gson.fromJson(response.body(), subTaskType);
+//        List<SubTask> actual = subTask.stream()
 //                .map(task -> new SubTask(task.getName(),
 //                        task.getDescription(), task.getDuration(), task.getStartTime(), epicTest.getId()))
 //                .collect(Collectors.toList());
@@ -356,25 +360,28 @@ public class HttpTaskServerTest {
         Assertions.assertEquals(201, response.statusCode());
     }
 
-//    //16
-//    @Test
-//    void postUpdateSubTaskOnServerTest() throws IOException, InterruptedException {
-//        HttpClient client = HttpClient.newHttpClient();
-//        SubTask subTaskPost = new SubTask("Изучить и сдать 3 модуль",
-//                "Изучить новые темы",
-//                600, LocalDateTime.now(),epicTest.getId());
-//
-//        URI uri = URI.create(URI_CONST + "/subtasks/1");
-//        String jsonEpic = gson.toJson(subTaskPost);
-//        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(jsonEpic, StandardCharsets.UTF_8);
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(uri)
-//                .POST(bodyPublisher)
-//                .build();
-//
-//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        Assertions.assertEquals(201, response.statusCode());
-//    }
+    //16
+    @Test
+    void postUpdateSubTaskOnServerTest() throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+        taskManager.addEpic(epicTest);
+        taskManager.addSubTask(subTaskTest);
+        SubTask subTaskPost = new SubTask(2,"Изучить и сдать 3 модуль",
+                "Изучить новые темы", Status.NEW,
+                600, LocalDateTime.now(),epicTest.getId());
+        taskManager.updateSubTask(subTaskPost);
+
+        URI uri = URI.create(URI_CONST + "/subtasks/1");
+        String jsonEpic = gson.toJson(subTaskPost);
+        HttpRequest.BodyPublisher bodyPublisher = HttpRequest.BodyPublishers.ofString(jsonEpic, StandardCharsets.UTF_8);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .POST(bodyPublisher)
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals(201, response.statusCode());
+    }
 
     //17
     @Test
