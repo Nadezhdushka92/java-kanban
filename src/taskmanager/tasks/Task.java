@@ -45,7 +45,7 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
-        type = getType();
+        this.type = TaskType.TASK;
     }
 
     public Task() {

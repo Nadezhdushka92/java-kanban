@@ -22,7 +22,7 @@ public interface TaskManager {
     Task addTask(Task newTask);
 
     //e. Обновление задачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    void updateTask(Task updTask);
+    Task updateTask(Task updTask);
 
     //f. Удаление задачи по идентификатору.*/
     Task deleteTask(int id);
@@ -41,7 +41,7 @@ public interface TaskManager {
     SubTask addSubTask(SubTask newSubTask);
 
     //e. Обновление подзадачи. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    void updateSubTask(SubTask updSubTask);
+    SubTask updateSubTask(SubTask updSubTask);
 
     //f. Удаление подзадач Epica по идентификатору.
     SubTask deleteSubTask(int id);
@@ -60,7 +60,7 @@ public interface TaskManager {
     Epic addEpic(Epic newEpic);
 
     //e. Обновление эпика. Новая версия объекта с верным идентификатором передаётся в виде параметра.
-    void updateEpic(Epic updEpic);
+    Epic updateEpic(Epic updEpic);
 
     //f. Удаление эпика по идентификатору.
     Epic deleteEpic(int id);

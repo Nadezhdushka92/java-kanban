@@ -1,9 +1,15 @@
 package taskmanager.manager;
 
 import taskmanager.exception.ManagerSaveException;
-import taskmanager.tasks.*;
+import taskmanager.tasks.Epic;
+import taskmanager.tasks.Status;
+import taskmanager.tasks.SubTask;
+import taskmanager.tasks.Task;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -277,9 +283,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateTask(Task updTask) {
+    public Task updateTask(Task updTask) {
         super.updateTask(updTask);
         save();
+        return  updTask;
     }
 
     @Override
@@ -317,9 +324,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateSubTask(SubTask updSubTask) {
+    public SubTask updateSubTask(SubTask updSubTask) {
         super.updateSubTask(updSubTask);
         save();
+        return  updSubTask;
     }
 
     @Override
@@ -357,9 +365,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void updateEpic(Epic updEpic) {
+    public Epic updateEpic(Epic updEpic) {
         super.updateEpic(updEpic);
         save();
+        return updEpic;
     }
 
     @Override
