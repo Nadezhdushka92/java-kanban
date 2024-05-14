@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
+import taskmanager.tasks.Status;
 import taskmanager.tasks.SubTask;
 
 import java.io.IOException;
@@ -54,9 +55,9 @@ public class SubTasksHandler implements HttpHandler {
             if (id > 0) {
                 SubTask subTask = manager.getSubTaskById(id);
                 if (subTask != null) {
-                    SubTask gettedSubTask = new SubTask(subTask.getName(),
-                            subTask.getDescription(), subTask.getDuration(),
-                            subTask.getStartTime(), subTask.getEndTime(), subTask.getIdEpic());
+                    SubTask gettedSubTask = new SubTask(subTask.getId(), subTask.getName(),
+                            subTask.getDescription(), Status.valueOf(subTask.getStatus().toString()), subTask.getDuration(),
+                            subTask.getStartTime(), subTask.getIdEpic());
                     response = gson.toJson(gettedSubTask);
                     sendText(exchange, response);
                 }

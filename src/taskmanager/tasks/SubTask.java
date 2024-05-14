@@ -42,6 +42,7 @@ public class SubTask extends Task {
     public SubTask(int id, String name, String description, Status status, long duration, LocalDateTime startTime, int idEpic) {
         super(id, name, description, status, duration, startTime);
         this.idEpic = idEpic;
+        this.type = TaskType.SUBTASK;
     }
 
     public int getIdEpic() {

@@ -46,7 +46,7 @@ public class HttpTaskServerTest {
         subTaskTest = new SubTask("Изучить и сдать 3 модуль",
                 "Изучить новые темы",
                 600, LocalDateTime.of(2024, 5, 12, 17, 1),1);
-        epicTest.delAllSubTasks();
+        //epicTest.delAllSubTasks();
         taskManager = Managers.getDefaultTaskManager();
         taskServer = new HttpTaskServer(taskManager);
 
@@ -309,13 +309,13 @@ public class HttpTaskServerTest {
         }.getType();
         List<SubTask> subTask = gson.fromJson(response.body(), subTaskType);
         List<SubTask> actual = subTask.stream()
-                .map(task -> new SubTask(task.getName(),
-                        task.getDescription(), task.getDuration(), task.getStartTime(), epicTest.getId()))
+                .map(task -> new SubTask(task.getId(), task.getName(),
+                        task.getDescription(), Status.NEW, task.getDuration(), task.getStartTime(), epicTest.getId()))
                 .collect(Collectors.toList());
 
         Assertions.assertNotNull(actual, "Список пуст");
         Assertions.assertEquals(1, actual.size(), "Неверное количество");
-        //ssertions.assertEquals(subTaskTest, actual.getFirst(), "Задачи не совпадают");
+        Assertions.assertEquals(subTaskTest, actual.getFirst(), "Задачи не совпадают");
     }
 
     //14
@@ -340,7 +340,7 @@ public class HttpTaskServerTest {
         SubTask actual = new SubTask(subTask.getId(), subTask.getName(), subTask.getDescription(), Status.NEW, subTask.getDuration(), subTask.getStartTime(), epicTest.getId());
 
         Assertions.assertNotNull(actual, "Список пуст");
-        //Assertions.assertEquals(subTaskTest, actual, "Задачи не совпадают");
+        Assertions.assertEquals(subTaskTest, actual, "Задачи не совпадают");
     }
 
     //15
