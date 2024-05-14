@@ -3,7 +3,6 @@ package taskmanager.server;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.httpclient.HttpStatus;
 import taskmanager.manager.Managers;
 import taskmanager.manager.TaskManager;
 import taskmanager.tasks.Task;
@@ -35,16 +34,16 @@ public class HistoryTaskHandler implements HttpHandler {
                 String responseJson = gson.toJson(history);
                 byte[] responseByte = responseJson.getBytes(StandardCharsets.UTF_8);
                 exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
-                exchange.sendResponseHeaders(HttpStatus.SC_OK, responseByte.length);
+                exchange.sendResponseHeaders(HttpStatusCode.OK.getCode(), responseByte.length);
                 exchange.getResponseBody().write(responseByte);
             } else {
                 writeResponse(exchange, "Неверный путь " + path,
-                        HttpStatus.SC_NOT_ACCEPTABLE);
+                        HttpStatusCode.NOT_ACCEPTABLE.getCode());
             }
 
         } else {
             writeResponse(exchange, "Неверный метод: " + method + ". Нужен метод GET",
-                    HttpStatus.SC_NOT_ACCEPTABLE);
+                    HttpStatusCode.NOT_ACCEPTABLE.getCode());
         }
     }
 

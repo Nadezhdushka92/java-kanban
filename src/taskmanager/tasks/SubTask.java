@@ -8,10 +8,10 @@ public class SubTask extends Task {
     private int idEpic;
     private LocalDateTime endTime;
 
-    @Override
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
+//    @Override
+//    public LocalDateTime getEndTime() {
+//        return endTime;
+//    }
 
 
     public SubTask(String name, String description, int idEpic) {

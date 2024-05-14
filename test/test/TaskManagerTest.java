@@ -102,38 +102,37 @@ abstract class TaskManagerTest <T extends TaskManager> {
         assertEquals(subTask1, subtaskList.getFirst(), "Подзадачи не совпадают");
     }
 
+@Test
+public void TimeOfExecuteSubTaskTest() throws IOException {
+    //Prepare
+    Epic added1Epic = manager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 0,
+            null));
+    SubTask added1subTask = manager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 0,
+            null,1));
+    //Do
+    final LocalDateTime timeStartIsNull = added1subTask.getStartTime();
+    final LocalDateTime timeEndIsNull = added1subTask.getEndTime();
+    final long durationIsEmpty = added1subTask.getDuration();
 
-//@Test
-//public void TimeOfExecuteSubTaskTest() throws IOException {
-//    //Prepare
-//    Epic added1Epic = manager.addEpic(new Epic("Эпик 1","Пройти обучение Java", 0,
-//            null));
-//    SubTask added1subTask = manager.addSubTask(new SubTask("Подзадача 1","Пройти теорию Java", 0,
-//            null,3));
-//    //Do
-//    final LocalDateTime timeStartIsNull = added1subTask.getStartTime();
-//    final LocalDateTime timeEndIsNull= added1subTask.getEndTime();
-//    final long durationIsEmpty = added1subTask.getDuration();
-//
-//    assertNull(timeStartIsNull, "Время старта не Null");
-//    assertNull(timeEndIsNull, "Время конца не Null");
-//    assertEquals(0, durationIsEmpty, "Продолжительность не Null");
-//
-//    added1subTask.createTime(30, LocalDateTime.of(2024, 5, 6, 8, 00));
-//    System.out.println(added1subTask);
-//
-//    final LocalDateTime timeStartNotEmpty = LocalDateTime.of(2024, 5, 6, 8, 00);
-//    final LocalDateTime timeEndNotEmpty = LocalDateTime.of(2024, 5, 6, 8, 30);
-//    final long durationNotEmpty = 30;
-//
-//    final LocalDateTime timeStartTask = added1subTask.getStartTime();
-//    final LocalDateTime timeEndTask = added1subTask.getEndTime();
-//    final long durationTask = added1subTask.getDuration();
-//
-//    assertEquals(timeStartTask, timeStartNotEmpty, "Время старта не совпадает");
-//    assertEquals(timeEndTask, timeEndNotEmpty, "Время конца не совпадает");
-//    assertEquals(durationTask, durationNotEmpty, "Продолжительность не совпадает");
-//}
+    assertNull(timeStartIsNull, "Время старта не Null");
+    assertNull(timeEndIsNull, "Время конца не Null");
+    assertEquals(0, durationIsEmpty, "Продолжительность не Null");
+
+    added1subTask.createTime(30, LocalDateTime.of(2024, 5, 6, 8, 00));
+    System.out.println(added1subTask);
+
+    final LocalDateTime timeStartNotEmpty = LocalDateTime.of(2024, 5, 6, 8, 00);
+    final LocalDateTime timeEndNotEmpty = LocalDateTime.of(2024, 5, 6, 8, 30);
+    final long durationNotEmpty = 30;
+
+    final LocalDateTime timeStartTask = added1subTask.getStartTime();
+    final LocalDateTime timeEndTask = added1subTask.getEndTime();
+    final long durationTask = added1subTask.getDuration();
+
+    assertEquals(timeStartTask, timeStartNotEmpty, "Время старта не совпадает");
+    assertEquals(timeEndTask, timeEndNotEmpty, "Время конца не совпадает");
+    assertEquals(durationTask, durationNotEmpty, "Продолжительность не совпадает");
+}
 
 @Test
 public void getAllTasksTest() throws IOException {

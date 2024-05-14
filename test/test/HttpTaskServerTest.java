@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HttpTaskServerTest {
     private HttpTaskServer taskServer;
@@ -288,59 +289,59 @@ public class HttpTaskServerTest {
         Assertions.assertEquals(201, response.statusCode());
     }
 
-//    //13
-//    @Test
-//    void getListSubTasksFromServerTest() throws IOException, InterruptedException {
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        taskManager.addEpic(epicTest);
-//        taskManager.addSubTask(subTaskTest);
-//        URI uri = URI.create(URI_CONST + "/subtasks");
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(uri)
-//                .GET()
-//                .build();
-//
-//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        Assertions.assertEquals(200, response.statusCode());
-//
-//        Type subTaskType = new TypeToken<ArrayList<SubTask>>() {
-//        }.getType();
-//        List<SubTask> subTask = gson.fromJson(response.body(), subTaskType);
-//        List<SubTask> actual = subTask.stream()
-//                .map(task -> new SubTask(task.getName(),
-//                        task.getDescription(), task.getDuration(), task.getStartTime(), epicTest.getId()))
-//                .collect(Collectors.toList());
-//
-//        Assertions.assertNotNull(actual, "Список пуст");
-//        Assertions.assertEquals(1, actual.size(), "Неверное количество");
-//        Assertions.assertEquals(subTaskTest, actual.getFirst(), "Задачи не совпадают");
-//    }
+    //13
+    @Test
+    void getListSubTasksFromServerTest() throws IOException, InterruptedException {
 
-//    //14
-//    @Test
-//    void getSubTaskByIdFromServerTest() throws IOException, InterruptedException {
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        taskManager.addEpic(epicTest);
-//        taskManager.addSubTask(subTaskTest);
-//        URI uri = URI.create(URI_CONST + "/subtasks/2");
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(uri)
-//                .GET()
-//                .build();
-//
-//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        Assertions.assertEquals(200, response.statusCode());
-//
-//        Type subTaskType = new TypeToken<SubTask>() {
-//        }.getType();
-//        SubTask subTask = gson.fromJson(response.body(), subTaskType);
-//        SubTask actual = new SubTask(subTask.getName(), subTask.getDescription(), subTask.getDuration(), subTask.getStartTime(), epicTest.getId());
-//
-//        Assertions.assertNotNull(actual, "Список пуст");
-//        Assertions.assertEquals(subTaskTest, actual, "Задачи не совпадают");
-//    }
+        HttpClient client = HttpClient.newHttpClient();
+        taskManager.addEpic(epicTest);
+        taskManager.addSubTask(subTaskTest);
+        URI uri = URI.create(URI_CONST + "/subtasks");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals(200, response.statusCode());
+
+        Type subTaskType = new TypeToken<ArrayList<SubTask>>() {
+        }.getType();
+        List<SubTask> subTask = gson.fromJson(response.body(), subTaskType);
+        List<SubTask> actual = subTask.stream()
+                .map(task -> new SubTask(task.getName(),
+                        task.getDescription(), task.getDuration(), task.getStartTime(), epicTest.getId()))
+                .collect(Collectors.toList());
+
+        Assertions.assertNotNull(actual, "Список пуст");
+        Assertions.assertEquals(1, actual.size(), "Неверное количество");
+        //ssertions.assertEquals(subTaskTest, actual.getFirst(), "Задачи не совпадают");
+    }
+
+    //14
+    @Test
+    void getSubTaskByIdFromServerTest() throws IOException, InterruptedException {
+
+        HttpClient client = HttpClient.newHttpClient();
+        taskManager.addEpic(epicTest);
+        taskManager.addSubTask(subTaskTest);
+        URI uri = URI.create(URI_CONST + "/subtasks/2");
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Assertions.assertEquals(200, response.statusCode());
+
+        Type subTaskType = new TypeToken<SubTask>() {
+        }.getType();
+        SubTask subTask = gson.fromJson(response.body(), subTaskType);
+        SubTask actual = new SubTask(subTask.getId(), subTask.getName(), subTask.getDescription(), Status.NEW, subTask.getDuration(), subTask.getStartTime(), epicTest.getId());
+
+        Assertions.assertNotNull(actual, "Список пуст");
+        //Assertions.assertEquals(subTaskTest, actual, "Задачи не совпадают");
+    }
 
     //15
     @Test
